@@ -1,35 +1,20 @@
-# Run
-
-From this folder in PowerShell:
+# Run locally
 
 ```powershell
 ..\penv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-python scripts\generate_dataset.py --seed 42
-```
-
-Create a password hash for each account:
-
-```powershell
-$adminHash = python scripts\hash_password.py
-$managerHash = python scripts\hash_password.py
-$readerHash = python scripts\hash_password.py
-```
-
-Configure accounts and start the app:
-
-```powershell
-$users = @(
-  @{ username = "admin"; password_hash = $adminHash.Trim(); role = "admin" },
-  @{ username = "team-manager"; password_hash = $managerHash.Trim(); role = "manager"; company_ids = @("COMP-0001") },
-  @{ username = "reviewer"; password_hash = $readerHash.Trim(); role = "readonly" }
-)
-$env:ORGCHART_USERS_JSON = ConvertTo-Json -InputObject $users -Compress
 streamlit run app.py
 ```
 
-Run tests:
+# Deploy
 
-```powershell
-python -m pytest -q
+1. Merge `deploy/prod` into `main` on GitHub.
+2. Create an app at [share.streamlit.io](https://share.streamlit.io).
+3. Select `sk-agnihotri/org-chart-platform`, branch `main`, and file `app.py`.
+4. Add the following under **Advanced settings → Secrets**, replacing the hashes with values from `python scripts\hash_password.py`:
+
+```toml
+ORGCHART_USERS_JSON = '[{"username":"admin","password_hash":"<admin-hash>","role":"admin"},{"username":"reviewer","password_hash":"<reviewer-hash>","role":"readonly"}]'
 ```
+
+5. Deploy and open the generated app URL.
