@@ -1,0 +1,501 @@
+company_id,company_name,industry,stage,size_band,employee_count,structure_type,founded_year
+COMP-0001,Ekatva Labs 001,Technology,Established,100-149,128,functional,2000
+COMP-0002,Ananta Group 002,Manufacturing,Seed,150-199,173,functional,2021
+COMP-0003,Amara Works 003,Education,Established,200-250,242,executive_led,2000
+COMP-0004,Vistaar Group 004,Financial Services,Series A,200-250,221,functional,2003
+COMP-0005,Dharohar Systems 005,Education,Series B,200-250,211,functional,2008
+COMP-0006,Daksha Systems 006,Technology,Seed,100-149,123,functional,2021
+COMP-0007,Dharohar Co 007,Education,Series B,100-149,141,functional,2019
+COMP-0008,Sampada Co 008,Financial Services,Seed,200-250,222,functional,1999
+COMP-0009,Bharat Co 009,Retail,Established,100-149,147,flat_startup,2016
+COMP-0010,Sudarshan Labs 010,Manufacturing,Established,200-250,235,executive_led,2017
+COMP-0011,Srishti Labs 011,Manufacturing,Established,200-250,220,matrix_like,1998
+COMP-0012,Sampada Systems 012,Financial Services,Growth,100-149,130,executive_led,1999
+COMP-0013,Indus Works 013,Healthcare,Growth,150-199,154,functional,2023
+COMP-0014,Bharat Systems 014,Financial Services,Established,150-199,176,functional,2007
+COMP-0015,Ananta Systems 015,Manufacturing,Series A,200-250,206,functional,2012
+COMP-0016,Sampada Co 016,Education,Growth,200-250,219,flat_startup,2019
+COMP-0017,Jeevika Group 017,Manufacturing,Seed,200-250,210,functional,2024
+COMP-0018,Chaitanya Works 018,Financial Services,Growth,150-199,159,flat_startup,2021
+COMP-0019,Nirmaan Works 019,Education,Series A,200-250,223,functional,2021
+COMP-0020,Nirmaan Labs 020,Education,Series A,200-250,233,flat_startup,2023
+COMP-0021,Kaveri Works 021,Healthcare,Established,100-149,116,functional,2003
+COMP-0022,Nirmaan Systems 022,Healthcare,Series B,100-149,115,executive_led,2012
+COMP-0023,Sankalp Co 023,Manufacturing,Series A,200-250,220,matrix_like,2006
+COMP-0024,Tarang Systems 024,Education,Seed,200-250,217,executive_led,1999
+COMP-0025,Arohan Works 025,Retail,Series A,200-250,212,functional,2015
+COMP-0026,Aavishkar Works 026,Retail,Established,100-149,139,executive_led,2017
+COMP-0027,Sudarshan Works 027,Manufacturing,Growth,200-250,209,matrix_like,1998
+COMP-0028,Bharat Co 028,Manufacturing,Established,150-199,193,functional,2000
+COMP-0029,Gati Co 029,Education,Seed,150-199,173,executive_led,2021
+COMP-0030,Amara Group 030,Technology,Series A,150-199,199,functional,2005
+COMP-0031,Navika Labs 031,Financial Services,Series B,200-250,249,executive_led,2011
+COMP-0032,Akshara Group 032,Technology,Growth,100-149,105,functional,2020
+COMP-0033,Astitva Labs 033,Healthcare,Established,200-250,234,functional,2004
+COMP-0034,Akshara Co 034,Manufacturing,Seed,200-250,215,functional,2011
+COMP-0035,Daksha Works 035,Technology,Growth,200-250,245,functional,2014
+COMP-0036,Chaitanya Labs 036,Retail,Series A,100-149,102,flat_startup,2020
+COMP-0037,Sampada Systems 037,Financial Services,Established,100-149,135,functional,2006
+COMP-0038,Gati Group 038,Financial Services,Series A,200-250,216,functional,2001
+COMP-0039,Tarang Labs 039,Manufacturing,Series A,150-199,163,flat_startup,2007
+COMP-0040,Udaan Systems 040,Retail,Series A,150-199,175,executive_led,2018
+COMP-0041,Sudarshan Labs 041,Healthcare,Series B,200-250,250,functional,2017
+COMP-0042,Daksha Systems 042,Financial Services,Series A,150-199,186,executive_led,2009
+COMP-0043,Vistaar Group 043,Technology,Established,100-149,124,executive_led,2014
+COMP-0044,Daksha Works 044,Education,Seed,150-199,169,functional,2000
+COMP-0045,Amara Systems 045,Manufacturing,Seed,150-199,162,executive_led,2024
+COMP-0046,Pragati Co 046,Education,Series A,200-250,232,matrix_like,2010
+COMP-0047,Gati Co 047,Manufacturing,Seed,150-199,191,flat_startup,1999
+COMP-0048,Aashray Group 048,Healthcare,Established,150-199,192,functional,2020
+COMP-0049,Iraaya Works 049,Healthcare,Growth,200-250,222,functional,2012
+COMP-0050,Astitva Labs 050,Technology,Series B,100-149,122,executive_led,2020
+COMP-0051,Arohan Group 051,Technology,Series A,200-250,215,flat_startup,2001
+COMP-0052,Akshara Labs 052,Financial Services,Series A,100-149,146,functional,2014
+COMP-0053,Gati Group 053,Healthcare,Growth,200-250,224,functional,2017
+COMP-0054,Kaveri Co 054,Education,Series A,150-199,188,executive_led,2010
+COMP-0055,Amara Systems 055,Manufacturing,Established,200-250,209,executive_led,2024
+COMP-0056,Aashray Labs 056,Education,Growth,150-199,194,functional,2001
+COMP-0057,Sankalp Systems 057,Technology,Series B,200-250,201,functional,2021
+COMP-0058,Aashray Works 058,Manufacturing,Growth,150-199,164,executive_led,2017
+COMP-0059,Sankalp Systems 059,Healthcare,Growth,100-149,122,flat_startup,2015
+COMP-0060,Jeevika Systems 060,Technology,Growth,200-250,241,executive_led,1999
+COMP-0061,Daksha Group 061,Healthcare,Established,200-250,240,executive_led,2023
+COMP-0062,Navika Systems 062,Financial Services,Growth,200-250,230,functional,2006
+COMP-0063,Indus Systems 063,Financial Services,Growth,100-149,131,functional,2010
+COMP-0064,Yukti Co 064,Healthcare,Growth,150-199,184,functional,2019
+COMP-0065,Gati Systems 065,Healthcare,Established,100-149,117,functional,2016
+COMP-0066,Aashray Works 066,Manufacturing,Series B,150-199,186,matrix_like,2001
+COMP-0067,Aarohan Systems 067,Healthcare,Series B,150-199,178,executive_led,2022
+COMP-0068,Indus Group 068,Retail,Series A,200-250,222,functional,2000
+COMP-0069,Srishti Works 069,Retail,Growth,100-149,106,functional,2019
+COMP-0070,Nirmaan Group 070,Financial Services,Seed,100-149,126,functional,2002
+COMP-0071,Sankalp Systems 071,Healthcare,Growth,100-149,119,executive_led,2019
+COMP-0072,Sampada Co 072,Financial Services,Seed,150-199,187,flat_startup,2013
+COMP-0073,Ekatva Labs 073,Education,Seed,100-149,105,functional,2013
+COMP-0074,Udaan Systems 074,Financial Services,Series A,200-250,238,functional,2017
+COMP-0075,Tarang Works 075,Financial Services,Seed,150-199,191,functional,2008
+COMP-0076,Navika Co 076,Healthcare,Established,200-250,215,flat_startup,2004
+COMP-0077,Indus Co 077,Healthcare,Established,150-199,167,executive_led,2002
+COMP-0078,Sudarshan Co 078,Manufacturing,Series A,200-250,209,functional,2013
+COMP-0079,Chaitanya Co 079,Manufacturing,Seed,100-149,122,functional,2006
+COMP-0080,Yukti Group 080,Healthcare,Growth,150-199,187,functional,2021
+COMP-0081,Dharohar Labs 081,Manufacturing,Established,150-199,187,executive_led,2019
+COMP-0082,Navika Group 082,Education,Established,100-149,108,functional,2014
+COMP-0083,Indus Co 083,Education,Series B,200-250,250,functional,2017
+COMP-0084,Ekatva Labs 084,Manufacturing,Seed,100-149,144,executive_led,2016
+COMP-0085,Yukti Labs 085,Education,Series A,150-199,176,functional,2018
+COMP-0086,Sudarshan Systems 086,Manufacturing,Series B,200-250,239,executive_led,2002
+COMP-0087,Aavishkar Labs 087,Healthcare,Series B,200-250,238,matrix_like,2001
+COMP-0088,Yukti Labs 088,Manufacturing,Seed,200-250,208,matrix_like,2010
+COMP-0089,Udaan Systems 089,Financial Services,Series B,200-250,228,executive_led,2022
+COMP-0090,Jeevika Labs 090,Healthcare,Established,100-149,145,matrix_like,2007
+COMP-0091,Aarunya Works 091,Retail,Series B,200-250,243,executive_led,2017
+COMP-0092,Iraaya Labs 092,Education,Series A,100-149,123,executive_led,2002
+COMP-0093,Gati Works 093,Education,Seed,100-149,110,executive_led,2023
+COMP-0094,Amara Systems 094,Manufacturing,Growth,200-250,235,functional,2013
+COMP-0095,Aarohan Systems 095,Manufacturing,Series A,100-149,138,flat_startup,2014
+COMP-0096,Sudarshan Co 096,Education,Established,200-250,224,functional,2004
+COMP-0097,Ananta Co 097,Healthcare,Seed,200-250,214,functional,2001
+COMP-0098,Navika Systems 098,Manufacturing,Series A,200-250,237,functional,2011
+COMP-0099,Ekatva Group 099,Education,Series B,100-149,143,functional,2012
+COMP-0100,Bharat Group 100,Retail,Growth,200-250,211,executive_led,2016
+COMP-0101,Jeevika Co 101,Retail,Established,200-250,241,matrix_like,2015
+COMP-0102,Gati Systems 102,Retail,Growth,150-199,162,executive_led,2022
+COMP-0103,Pragati Group 103,Retail,Series A,200-250,219,matrix_like,2002
+COMP-0104,Pragati Works 104,Financial Services,Seed,150-199,164,executive_led,2016
+COMP-0105,Dharohar Group 105,Financial Services,Series A,100-149,140,functional,2017
+COMP-0106,Bharat Labs 106,Retail,Series B,100-149,140,executive_led,2015
+COMP-0107,Ekatva Labs 107,Manufacturing,Growth,100-149,113,functional,2020
+COMP-0108,Akshara Systems 108,Retail,Established,100-149,107,executive_led,2008
+COMP-0109,Daksha Group 109,Manufacturing,Series A,200-250,244,functional,2004
+COMP-0110,Aashray Labs 110,Retail,Growth,100-149,130,functional,2012
+COMP-0111,Kaveri Works 111,Technology,Growth,200-250,201,executive_led,2009
+COMP-0112,Iraaya Group 112,Education,Series B,150-199,187,executive_led,2002
+COMP-0113,Aarohan Co 113,Healthcare,Seed,200-250,215,functional,2016
+COMP-0114,Jeevika Systems 114,Technology,Series A,100-149,120,matrix_like,2005
+COMP-0115,Vistaar Systems 115,Financial Services,Seed,100-149,121,functional,2004
+COMP-0116,Aashray Systems 116,Retail,Established,100-149,141,executive_led,2001
+COMP-0117,Jeevika Systems 117,Manufacturing,Series A,150-199,168,matrix_like,2012
+COMP-0118,Chaitanya Co 118,Manufacturing,Series B,150-199,180,executive_led,2011
+COMP-0119,Udaan Labs 119,Financial Services,Seed,200-250,217,functional,2023
+COMP-0120,Indus Labs 120,Education,Established,150-199,167,functional,2023
+COMP-0121,Yukti Labs 121,Financial Services,Growth,100-149,137,functional,2003
+COMP-0122,Astitva Group 122,Retail,Growth,100-149,106,matrix_like,2003
+COMP-0123,Kaveri Works 123,Healthcare,Series B,150-199,186,functional,1999
+COMP-0124,Dharohar Works 124,Manufacturing,Growth,100-149,135,flat_startup,2012
+COMP-0125,Amara Co 125,Financial Services,Seed,200-250,239,functional,2001
+COMP-0126,Nirmaan Labs 126,Healthcare,Growth,200-250,227,functional,2013
+COMP-0127,Kaveri Co 127,Healthcare,Growth,100-149,142,matrix_like,2019
+COMP-0128,Vistaar Systems 128,Healthcare,Seed,200-250,225,matrix_like,2016
+COMP-0129,Aarohan Labs 129,Financial Services,Seed,200-250,221,executive_led,2009
+COMP-0130,Gati Systems 130,Financial Services,Series B,100-149,112,flat_startup,2000
+COMP-0131,Udaan Group 131,Healthcare,Series B,100-149,146,functional,2009
+COMP-0132,Bharat Systems 132,Technology,Growth,200-250,241,functional,2011
+COMP-0133,Pragati Systems 133,Technology,Growth,200-250,235,flat_startup,2020
+COMP-0134,Aashray Group 134,Retail,Seed,150-199,154,matrix_like,2009
+COMP-0135,Chaitanya Labs 135,Financial Services,Established,100-149,146,flat_startup,2017
+COMP-0136,Dharohar Works 136,Education,Seed,100-149,108,flat_startup,2008
+COMP-0137,Srishti Systems 137,Retail,Seed,200-250,216,functional,2004
+COMP-0138,Indus Works 138,Education,Established,150-199,151,executive_led,2005
+COMP-0139,Indus Systems 139,Manufacturing,Growth,150-199,167,functional,2018
+COMP-0140,Chaitanya Group 140,Education,Established,200-250,223,executive_led,2003
+COMP-0141,Udaan Group 141,Manufacturing,Series B,200-250,233,functional,2024
+COMP-0142,Pragati Group 142,Education,Series B,200-250,242,executive_led,2015
+COMP-0143,Aavishkar Group 143,Financial Services,Growth,100-149,134,flat_startup,2023
+COMP-0144,Akshara Systems 144,Healthcare,Established,100-149,128,functional,1999
+COMP-0145,Iraaya Systems 145,Technology,Established,150-199,163,executive_led,2024
+COMP-0146,Akshara Labs 146,Technology,Growth,200-250,204,executive_led,2023
+COMP-0147,Aarunya Systems 147,Retail,Growth,100-149,105,flat_startup,2014
+COMP-0148,Tarang Co 148,Manufacturing,Established,150-199,192,functional,2018
+COMP-0149,Gati Group 149,Education,Series B,150-199,192,executive_led,2000
+COMP-0150,Srishti Systems 150,Retail,Established,200-250,242,executive_led,1998
+COMP-0151,Tarang Group 151,Healthcare,Growth,150-199,167,functional,2009
+COMP-0152,Ananta Labs 152,Healthcare,Seed,150-199,178,executive_led,2003
+COMP-0153,Vistaar Co 153,Technology,Series B,150-199,152,functional,2024
+COMP-0154,Daksha Works 154,Manufacturing,Growth,100-149,104,flat_startup,1999
+COMP-0155,Gati Co 155,Financial Services,Growth,100-149,143,matrix_like,2022
+COMP-0156,Chaitanya Co 156,Manufacturing,Growth,200-250,200,matrix_like,2016
+COMP-0157,Kaveri Labs 157,Healthcare,Series A,150-199,169,functional,2008
+COMP-0158,Kaveri Labs 158,Technology,Established,200-250,213,functional,2000
+COMP-0159,Dharohar Systems 159,Healthcare,Established,100-149,134,functional,2016
+COMP-0160,Vistaar Co 160,Manufacturing,Series A,150-199,155,functional,2011
+COMP-0161,Sankalp Systems 161,Education,Growth,100-149,148,flat_startup,1998
+COMP-0162,Arohan Group 162,Financial Services,Series B,200-250,249,flat_startup,2004
+COMP-0163,Tarang Co 163,Manufacturing,Established,200-250,246,executive_led,2011
+COMP-0164,Kaveri Labs 164,Technology,Series A,200-250,200,functional,2009
+COMP-0165,Yukti Systems 165,Technology,Seed,150-199,168,flat_startup,2005
+COMP-0166,Aashray Works 166,Financial Services,Series B,100-149,146,functional,2010
+COMP-0167,Srishti Group 167,Manufacturing,Established,150-199,185,functional,2020
+COMP-0168,Astitva Labs 168,Retail,Growth,100-149,145,functional,2012
+COMP-0169,Udaan Systems 169,Manufacturing,Growth,100-149,143,matrix_like,2023
+COMP-0170,Ananta Group 170,Financial Services,Seed,150-199,159,functional,1999
+COMP-0171,Yukti Group 171,Education,Series B,100-149,106,functional,2005
+COMP-0172,Navika Labs 172,Retail,Growth,100-149,146,functional,2006
+COMP-0173,Bharat Systems 173,Education,Seed,200-250,215,executive_led,1999
+COMP-0174,Srishti Systems 174,Education,Growth,100-149,146,executive_led,2010
+COMP-0175,Astitva Group 175,Education,Growth,100-149,102,functional,2009
+COMP-0176,Srishti Systems 176,Manufacturing,Series B,200-250,249,flat_startup,2006
+COMP-0177,Sampada Systems 177,Technology,Series A,150-199,156,functional,2006
+COMP-0178,Aashray Group 178,Manufacturing,Established,200-250,215,functional,2009
+COMP-0179,Sankalp Works 179,Education,Seed,200-250,245,executive_led,2018
+COMP-0180,Jeevika Labs 180,Manufacturing,Growth,150-199,186,functional,2023
+COMP-0181,Aashray Works 181,Healthcare,Growth,150-199,150,flat_startup,2015
+COMP-0182,Yukti Systems 182,Healthcare,Series A,200-250,202,functional,2016
+COMP-0183,Sankalp Systems 183,Manufacturing,Growth,150-199,198,functional,2008
+COMP-0184,Akshara Co 184,Education,Growth,200-250,224,functional,2023
+COMP-0185,Sudarshan Systems 185,Healthcare,Seed,200-250,247,flat_startup,2018
+COMP-0186,Udaan Co 186,Retail,Seed,200-250,226,functional,2017
+COMP-0187,Sampada Labs 187,Financial Services,Established,150-199,199,functional,2009
+COMP-0188,Jeevika Labs 188,Manufacturing,Series A,200-250,234,functional,2023
+COMP-0189,Ananta Systems 189,Healthcare,Established,150-199,159,matrix_like,2019
+COMP-0190,Gati Group 190,Manufacturing,Established,200-250,201,flat_startup,2001
+COMP-0191,Chaitanya Works 191,Financial Services,Established,200-250,212,executive_led,2012
+COMP-0192,Yukti Systems 192,Manufacturing,Growth,100-149,125,flat_startup,2006
+COMP-0193,Nirmaan Labs 193,Technology,Series A,150-199,177,functional,2008
+COMP-0194,Akshara Labs 194,Financial Services,Series B,100-149,115,functional,2023
+COMP-0195,Amara Systems 195,Education,Series B,200-250,236,functional,2016
+COMP-0196,Aashray Labs 196,Education,Series A,200-250,242,flat_startup,2024
+COMP-0197,Aashray Co 197,Technology,Growth,200-250,218,functional,2018
+COMP-0198,Jeevika Group 198,Retail,Established,200-250,204,functional,2019
+COMP-0199,Sudarshan Works 199,Retail,Seed,100-149,133,matrix_like,2006
+COMP-0200,Astitva Systems 200,Healthcare,Seed,200-250,245,flat_startup,2022
+COMP-0201,Aavishkar Group 201,Retail,Established,100-149,111,matrix_like,2014
+COMP-0202,Daksha Group 202,Financial Services,Series B,200-250,219,functional,2001
+COMP-0203,Tarang Co 203,Financial Services,Established,150-199,188,flat_startup,2002
+COMP-0204,Sankalp Systems 204,Manufacturing,Series A,150-199,155,functional,2001
+COMP-0205,Aavishkar Group 205,Healthcare,Series B,150-199,183,functional,2003
+COMP-0206,Vistaar Systems 206,Retail,Growth,100-149,147,functional,2011
+COMP-0207,Tarang Co 207,Retail,Established,150-199,165,functional,2008
+COMP-0208,Tarang Co 208,Manufacturing,Growth,100-149,110,functional,2018
+COMP-0209,Tarang Works 209,Manufacturing,Seed,150-199,193,matrix_like,2007
+COMP-0210,Kaveri Works 210,Manufacturing,Growth,150-199,180,functional,2019
+COMP-0211,Yukti Group 211,Financial Services,Series A,150-199,198,functional,2007
+COMP-0212,Tarang Group 212,Education,Seed,150-199,198,functional,2015
+COMP-0213,Srishti Co 213,Manufacturing,Series A,150-199,181,functional,2010
+COMP-0214,Tarang Co 214,Healthcare,Established,150-199,161,functional,2015
+COMP-0215,Aashray Co 215,Healthcare,Series B,200-250,241,executive_led,2012
+COMP-0216,Ananta Systems 216,Technology,Growth,200-250,203,matrix_like,2018
+COMP-0217,Tarang Group 217,Financial Services,Series A,200-250,215,flat_startup,1998
+COMP-0218,Akshara Co 218,Education,Seed,150-199,172,executive_led,2020
+COMP-0219,Navika Works 219,Retail,Seed,100-149,133,matrix_like,2014
+COMP-0220,Indus Works 220,Retail,Seed,200-250,246,matrix_like,1999
+COMP-0221,Sampada Works 221,Manufacturing,Series A,100-149,104,functional,2015
+COMP-0222,Bharat Systems 222,Education,Series B,100-149,116,matrix_like,2001
+COMP-0223,Aashray Group 223,Financial Services,Growth,100-149,106,executive_led,2022
+COMP-0224,Akshara Works 224,Financial Services,Established,150-199,166,functional,2024
+COMP-0225,Aashray Co 225,Education,Series A,150-199,184,functional,2018
+COMP-0226,Nirmaan Group 226,Healthcare,Established,150-199,163,flat_startup,2010
+COMP-0227,Astitva Systems 227,Retail,Established,100-149,103,functional,2018
+COMP-0228,Indus Works 228,Technology,Series B,150-199,183,functional,2021
+COMP-0229,Aarunya Co 229,Manufacturing,Seed,200-250,225,functional,2019
+COMP-0230,Yukti Labs 230,Manufacturing,Series A,150-199,167,flat_startup,2020
+COMP-0231,Aarohan Co 231,Technology,Established,100-149,105,functional,1998
+COMP-0232,Sampada Systems 232,Technology,Seed,150-199,159,flat_startup,2002
+COMP-0233,Astitva Works 233,Retail,Series A,100-149,102,executive_led,2008
+COMP-0234,Gati Works 234,Healthcare,Established,200-250,229,flat_startup,2019
+COMP-0235,Sampada Systems 235,Healthcare,Established,200-250,221,executive_led,2010
+COMP-0236,Aarunya Works 236,Healthcare,Series B,100-149,103,matrix_like,2000
+COMP-0237,Jeevika Works 237,Education,Established,200-250,228,functional,2000
+COMP-0238,Daksha Systems 238,Technology,Established,200-250,242,functional,2003
+COMP-0239,Chaitanya Systems 239,Education,Series A,100-149,119,executive_led,2017
+COMP-0240,Astitva Works 240,Healthcare,Series A,100-149,103,functional,1998
+COMP-0241,Daksha Systems 241,Technology,Established,200-250,211,functional,2017
+COMP-0242,Aarohan Labs 242,Education,Growth,100-149,114,functional,2001
+COMP-0243,Arohan Group 243,Financial Services,Series B,200-250,202,matrix_like,2010
+COMP-0244,Ananta Labs 244,Financial Services,Seed,200-250,248,executive_led,2019
+COMP-0245,Vistaar Works 245,Healthcare,Series B,150-199,192,executive_led,2003
+COMP-0246,Sankalp Labs 246,Manufacturing,Established,150-199,175,functional,2007
+COMP-0247,Udaan Labs 247,Healthcare,Series A,200-250,201,matrix_like,2016
+COMP-0248,Dharohar Group 248,Manufacturing,Series B,100-149,103,matrix_like,2000
+COMP-0249,Aarunya Works 249,Retail,Seed,200-250,246,functional,2008
+COMP-0250,Aashray Works 250,Healthcare,Series B,150-199,193,matrix_like,2016
+COMP-0251,Ekatva Labs 251,Technology,Growth,100-149,121,executive_led,2018
+COMP-0252,Jeevika Co 252,Education,Series B,200-250,222,functional,2014
+COMP-0253,Sudarshan Co 253,Technology,Series B,150-199,162,flat_startup,2000
+COMP-0254,Kaveri Labs 254,Education,Seed,100-149,148,flat_startup,1998
+COMP-0255,Sampada Co 255,Healthcare,Seed,150-199,189,matrix_like,2011
+COMP-0256,Tarang Labs 256,Healthcare,Series B,200-250,223,functional,2002
+COMP-0257,Aarunya Works 257,Financial Services,Growth,150-199,150,functional,2019
+COMP-0258,Aarunya Systems 258,Healthcare,Established,200-250,212,functional,1999
+COMP-0259,Sampada Works 259,Manufacturing,Established,200-250,210,matrix_like,2007
+COMP-0260,Tarang Systems 260,Healthcare,Growth,100-149,105,executive_led,2003
+COMP-0261,Indus Systems 261,Retail,Series A,200-250,220,functional,2014
+COMP-0262,Nirmaan Systems 262,Education,Series A,150-199,169,functional,2015
+COMP-0263,Daksha Labs 263,Healthcare,Series A,150-199,179,flat_startup,2008
+COMP-0264,Ananta Systems 264,Retail,Series A,200-250,216,functional,2005
+COMP-0265,Amara Co 265,Manufacturing,Established,150-199,172,functional,2022
+COMP-0266,Akshara Systems 266,Technology,Seed,100-149,126,functional,2021
+COMP-0267,Ekatva Labs 267,Technology,Seed,150-199,151,matrix_like,2002
+COMP-0268,Jeevika Co 268,Healthcare,Series B,150-199,154,matrix_like,2017
+COMP-0269,Srishti Group 269,Manufacturing,Series A,150-199,169,executive_led,1999
+COMP-0270,Astitva Labs 270,Manufacturing,Growth,150-199,183,functional,2003
+COMP-0271,Kaveri Co 271,Manufacturing,Growth,100-149,142,functional,2009
+COMP-0272,Sampada Systems 272,Technology,Seed,200-250,202,functional,2005
+COMP-0273,Chaitanya Group 273,Financial Services,Series A,150-199,193,matrix_like,2002
+COMP-0274,Daksha Labs 274,Education,Established,150-199,172,executive_led,2009
+COMP-0275,Iraaya Labs 275,Education,Growth,200-250,200,functional,2010
+COMP-0276,Kaveri Systems 276,Financial Services,Established,150-199,196,executive_led,2007
+COMP-0277,Astitva Co 277,Healthcare,Seed,100-149,147,functional,2003
+COMP-0278,Akshara Works 278,Technology,Seed,150-199,155,matrix_like,2015
+COMP-0279,Aarohan Group 279,Financial Services,Growth,150-199,173,functional,2002
+COMP-0280,Aashray Systems 280,Retail,Established,200-250,214,functional,2011
+COMP-0281,Indus Labs 281,Manufacturing,Established,200-250,207,matrix_like,2017
+COMP-0282,Srishti Labs 282,Education,Growth,200-250,238,executive_led,2005
+COMP-0283,Arohan Systems 283,Education,Seed,200-250,213,flat_startup,2021
+COMP-0284,Tarang Systems 284,Education,Growth,150-199,180,executive_led,1998
+COMP-0285,Indus Works 285,Retail,Established,200-250,229,functional,2018
+COMP-0286,Aarohan Systems 286,Financial Services,Series A,150-199,176,functional,2014
+COMP-0287,Aavishkar Group 287,Technology,Series A,200-250,233,functional,1999
+COMP-0288,Gati Co 288,Education,Series A,200-250,242,functional,2014
+COMP-0289,Iraaya Co 289,Healthcare,Series A,200-250,234,functional,2002
+COMP-0290,Sankalp Group 290,Technology,Established,150-199,154,executive_led,2000
+COMP-0291,Iraaya Group 291,Education,Established,150-199,196,functional,2003
+COMP-0292,Yukti Systems 292,Financial Services,Series A,200-250,232,functional,2004
+COMP-0293,Sankalp Co 293,Financial Services,Seed,200-250,233,functional,2010
+COMP-0294,Astitva Group 294,Retail,Series B,150-199,181,functional,2008
+COMP-0295,Iraaya Group 295,Retail,Seed,200-250,213,functional,2008
+COMP-0296,Kaveri Labs 296,Manufacturing,Series A,200-250,250,functional,2011
+COMP-0297,Aarunya Co 297,Financial Services,Established,200-250,228,matrix_like,2006
+COMP-0298,Dharohar Labs 298,Manufacturing,Growth,150-199,175,executive_led,2002
+COMP-0299,Ananta Works 299,Financial Services,Seed,100-149,106,matrix_like,2013
+COMP-0300,Aarunya Works 300,Healthcare,Growth,150-199,193,executive_led,2002
+COMP-0301,Kaveri Systems 301,Retail,Seed,100-149,110,functional,2000
+COMP-0302,Sankalp Labs 302,Education,Seed,150-199,151,executive_led,2013
+COMP-0303,Tarang Works 303,Technology,Series A,200-250,245,matrix_like,2024
+COMP-0304,Pragati Systems 304,Technology,Growth,100-149,105,flat_startup,2015
+COMP-0305,Astitva Systems 305,Healthcare,Established,200-250,237,matrix_like,2006
+COMP-0306,Sudarshan Works 306,Healthcare,Seed,150-199,154,functional,2002
+COMP-0307,Udaan Works 307,Education,Series A,200-250,243,executive_led,2007
+COMP-0308,Jeevika Group 308,Technology,Established,200-250,205,functional,2013
+COMP-0309,Pragati Systems 309,Healthcare,Series B,150-199,197,matrix_like,2007
+COMP-0310,Astitva Co 310,Technology,Series B,200-250,217,functional,2018
+COMP-0311,Kaveri Co 311,Financial Services,Series B,100-149,139,matrix_like,1999
+COMP-0312,Chaitanya Labs 312,Technology,Seed,150-199,171,matrix_like,2016
+COMP-0313,Srishti Group 313,Manufacturing,Series A,150-199,166,functional,2021
+COMP-0314,Nirmaan Co 314,Healthcare,Series B,100-149,126,flat_startup,2022
+COMP-0315,Yukti Labs 315,Retail,Series B,200-250,206,functional,2013
+COMP-0316,Pragati Systems 316,Healthcare,Series B,200-250,233,functional,2024
+COMP-0317,Aavishkar Group 317,Healthcare,Seed,200-250,249,executive_led,1998
+COMP-0318,Vistaar Co 318,Retail,Seed,100-149,123,functional,2009
+COMP-0319,Chaitanya Systems 319,Healthcare,Series A,200-250,238,executive_led,2014
+COMP-0320,Kaveri Co 320,Manufacturing,Series B,200-250,240,executive_led,2023
+COMP-0321,Aarohan Co 321,Education,Series A,200-250,215,matrix_like,2021
+COMP-0322,Aarunya Group 322,Education,Established,200-250,212,functional,2007
+COMP-0323,Sudarshan Co 323,Financial Services,Growth,150-199,177,executive_led,2000
+COMP-0324,Yukti Labs 324,Healthcare,Seed,150-199,176,functional,2015
+COMP-0325,Akshara Works 325,Financial Services,Seed,200-250,216,executive_led,1999
+COMP-0326,Arohan Group 326,Financial Services,Series B,200-250,211,functional,2004
+COMP-0327,Iraaya Works 327,Manufacturing,Seed,150-199,165,functional,2018
+COMP-0328,Navika Co 328,Healthcare,Seed,200-250,201,functional,2006
+COMP-0329,Bharat Co 329,Manufacturing,Established,150-199,181,functional,2011
+COMP-0330,Aarohan Labs 330,Healthcare,Established,150-199,196,functional,2004
+COMP-0331,Aashray Works 331,Retail,Established,150-199,156,executive_led,2024
+COMP-0332,Jeevika Co 332,Education,Series B,200-250,225,executive_led,1998
+COMP-0333,Gati Co 333,Financial Services,Seed,150-199,191,functional,2000
+COMP-0334,Amara Works 334,Manufacturing,Growth,100-149,119,flat_startup,2011
+COMP-0335,Srishti Co 335,Financial Services,Established,100-149,104,flat_startup,2003
+COMP-0336,Aarohan Group 336,Healthcare,Seed,150-199,185,flat_startup,2005
+COMP-0337,Tarang Group 337,Technology,Series B,100-149,138,functional,2001
+COMP-0338,Sankalp Labs 338,Healthcare,Series A,150-199,178,executive_led,2005
+COMP-0339,Ananta Systems 339,Financial Services,Established,100-149,144,functional,2005
+COMP-0340,Nirmaan Systems 340,Technology,Established,200-250,241,functional,2018
+COMP-0341,Ekatva Co 341,Financial Services,Established,200-250,202,executive_led,2001
+COMP-0342,Chaitanya Labs 342,Retail,Series B,150-199,171,matrix_like,2018
+COMP-0343,Ekatva Works 343,Retail,Series A,150-199,194,functional,2009
+COMP-0344,Ananta Co 344,Manufacturing,Growth,150-199,171,functional,2016
+COMP-0345,Srishti Works 345,Financial Services,Series B,200-250,224,flat_startup,2022
+COMP-0346,Srishti Labs 346,Healthcare,Seed,150-199,175,executive_led,2003
+COMP-0347,Dharohar Co 347,Healthcare,Established,100-149,104,matrix_like,2020
+COMP-0348,Indus Works 348,Education,Growth,200-250,238,matrix_like,2013
+COMP-0349,Pragati Co 349,Manufacturing,Series B,200-250,235,functional,2012
+COMP-0350,Yukti Systems 350,Education,Series B,200-250,208,functional,2008
+COMP-0351,Aarunya Co 351,Financial Services,Established,200-250,220,executive_led,2009
+COMP-0352,Navika Co 352,Retail,Growth,100-149,133,functional,2017
+COMP-0353,Iraaya Systems 353,Education,Growth,150-199,190,executive_led,2020
+COMP-0354,Sankalp Works 354,Healthcare,Series A,100-149,127,functional,2006
+COMP-0355,Tarang Works 355,Financial Services,Seed,100-149,109,functional,2014
+COMP-0356,Navika Labs 356,Healthcare,Series A,150-199,155,matrix_like,2012
+COMP-0357,Akshara Works 357,Financial Services,Seed,150-199,159,functional,2021
+COMP-0358,Udaan Co 358,Financial Services,Growth,200-250,235,functional,2010
+COMP-0359,Indus Co 359,Technology,Series A,150-199,154,functional,2000
+COMP-0360,Navika Works 360,Technology,Established,200-250,207,matrix_like,2001
+COMP-0361,Chaitanya Labs 361,Technology,Established,150-199,187,executive_led,2000
+COMP-0362,Astitva Labs 362,Retail,Established,150-199,154,functional,2018
+COMP-0363,Srishti Group 363,Technology,Seed,150-199,156,executive_led,2007
+COMP-0364,Gati Systems 364,Education,Seed,100-149,138,functional,2019
+COMP-0365,Srishti Works 365,Retail,Series B,200-250,221,functional,2024
+COMP-0366,Sampada Labs 366,Education,Growth,200-250,221,functional,2009
+COMP-0367,Navika Works 367,Healthcare,Series A,100-149,101,functional,2000
+COMP-0368,Daksha Works 368,Healthcare,Series A,100-149,106,functional,2005
+COMP-0369,Aarohan Labs 369,Manufacturing,Growth,150-199,196,executive_led,2021
+COMP-0370,Vistaar Group 370,Retail,Series B,100-149,110,executive_led,2018
+COMP-0371,Ananta Labs 371,Technology,Series A,200-250,226,flat_startup,1999
+COMP-0372,Aavishkar Labs 372,Technology,Series A,100-149,102,functional,2004
+COMP-0373,Navika Works 373,Healthcare,Series A,150-199,174,executive_led,2013
+COMP-0374,Gati Labs 374,Financial Services,Series A,150-199,153,flat_startup,2023
+COMP-0375,Amara Works 375,Technology,Seed,100-149,123,flat_startup,1999
+COMP-0376,Aarunya Co 376,Financial Services,Established,200-250,242,flat_startup,2016
+COMP-0377,Sankalp Works 377,Healthcare,Established,150-199,158,executive_led,2007
+COMP-0378,Dharohar Co 378,Financial Services,Growth,100-149,143,functional,1998
+COMP-0379,Pragati Labs 379,Retail,Series A,200-250,236,executive_led,2015
+COMP-0380,Dharohar Group 380,Retail,Established,150-199,159,executive_led,2001
+COMP-0381,Daksha Co 381,Healthcare,Series A,100-149,140,matrix_like,2017
+COMP-0382,Vistaar Systems 382,Manufacturing,Seed,100-149,113,functional,2019
+COMP-0383,Aarunya Labs 383,Technology,Seed,100-149,113,functional,2021
+COMP-0384,Aavishkar Co 384,Manufacturing,Growth,200-250,206,executive_led,1999
+COMP-0385,Aashray Co 385,Retail,Established,150-199,160,executive_led,2005
+COMP-0386,Indus Labs 386,Financial Services,Established,200-250,206,functional,2009
+COMP-0387,Bharat Labs 387,Healthcare,Series B,200-250,230,executive_led,2002
+COMP-0388,Srishti Labs 388,Healthcare,Series A,200-250,201,functional,2008
+COMP-0389,Bharat Group 389,Manufacturing,Series B,150-199,156,executive_led,2015
+COMP-0390,Aashray Group 390,Manufacturing,Seed,100-149,102,functional,2016
+COMP-0391,Srishti Co 391,Healthcare,Growth,200-250,210,functional,2007
+COMP-0392,Iraaya Group 392,Financial Services,Seed,100-149,149,executive_led,2006
+COMP-0393,Astitva Labs 393,Manufacturing,Established,100-149,137,functional,2021
+COMP-0394,Jeevika Group 394,Education,Seed,200-250,248,executive_led,2006
+COMP-0395,Aarunya Group 395,Financial Services,Growth,150-199,178,functional,2022
+COMP-0396,Srishti Works 396,Education,Seed,100-149,147,functional,2019
+COMP-0397,Udaan Systems 397,Healthcare,Seed,200-250,204,matrix_like,2001
+COMP-0398,Sampada Labs 398,Technology,Series B,100-149,102,matrix_like,2004
+COMP-0399,Aavishkar Systems 399,Technology,Growth,100-149,107,functional,2017
+COMP-0400,Tarang Systems 400,Education,Established,150-199,168,functional,2011
+COMP-0401,Pragati Co 401,Education,Growth,200-250,212,executive_led,2016
+COMP-0402,Arohan Labs 402,Healthcare,Series A,200-250,243,functional,1998
+COMP-0403,Kaveri Systems 403,Retail,Growth,100-149,137,executive_led,2012
+COMP-0404,Pragati Group 404,Education,Series B,200-250,204,matrix_like,2013
+COMP-0405,Tarang Group 405,Retail,Growth,200-250,201,functional,2013
+COMP-0406,Jeevika Group 406,Technology,Growth,200-250,241,executive_led,2011
+COMP-0407,Daksha Labs 407,Healthcare,Established,200-250,228,matrix_like,2016
+COMP-0408,Udaan Labs 408,Education,Series A,100-149,120,functional,2004
+COMP-0409,Dharohar Co 409,Technology,Seed,150-199,196,functional,2003
+COMP-0410,Kaveri Works 410,Retail,Growth,200-250,233,executive_led,2002
+COMP-0411,Yukti Co 411,Manufacturing,Growth,200-250,205,functional,2020
+COMP-0412,Dharohar Works 412,Technology,Seed,100-149,142,functional,2021
+COMP-0413,Amara Co 413,Education,Seed,150-199,186,executive_led,2008
+COMP-0414,Kaveri Group 414,Manufacturing,Established,100-149,110,functional,2015
+COMP-0415,Indus Labs 415,Financial Services,Series B,100-149,148,executive_led,2012
+COMP-0416,Aashray Co 416,Financial Services,Established,150-199,176,functional,2015
+COMP-0417,Udaan Co 417,Retail,Series A,200-250,239,functional,2006
+COMP-0418,Amara Labs 418,Technology,Growth,100-149,101,functional,2007
+COMP-0419,Nirmaan Labs 419,Technology,Seed,200-250,244,functional,2018
+COMP-0420,Ananta Labs 420,Retail,Seed,200-250,239,functional,2006
+COMP-0421,Vistaar Co 421,Financial Services,Series B,150-199,158,executive_led,2020
+COMP-0422,Daksha Group 422,Education,Established,150-199,189,functional,2001
+COMP-0423,Navika Group 423,Manufacturing,Series B,100-149,138,functional,2014
+COMP-0424,Bharat Systems 424,Healthcare,Seed,100-149,127,functional,2009
+COMP-0425,Aavishkar Group 425,Retail,Growth,100-149,120,flat_startup,2010
+COMP-0426,Aarunya Group 426,Financial Services,Series B,200-250,213,matrix_like,2002
+COMP-0427,Kaveri Systems 427,Education,Series A,200-250,248,executive_led,2009
+COMP-0428,Akshara Group 428,Technology,Seed,200-250,248,functional,2006
+COMP-0429,Astitva Works 429,Education,Series A,200-250,210,functional,2010
+COMP-0430,Aashray Labs 430,Education,Series A,200-250,210,functional,1998
+COMP-0431,Kaveri Labs 431,Manufacturing,Growth,150-199,177,flat_startup,2011
+COMP-0432,Daksha Works 432,Retail,Established,150-199,195,matrix_like,2024
+COMP-0433,Indus Group 433,Education,Established,150-199,176,functional,2014
+COMP-0434,Tarang Labs 434,Manufacturing,Series A,150-199,197,executive_led,2006
+COMP-0435,Srishti Group 435,Retail,Seed,200-250,231,functional,2014
+COMP-0436,Aashray Systems 436,Technology,Seed,100-149,109,flat_startup,2014
+COMP-0437,Akshara Labs 437,Financial Services,Growth,200-250,217,flat_startup,2022
+COMP-0438,Chaitanya Group 438,Healthcare,Series B,100-149,139,matrix_like,2001
+COMP-0439,Chaitanya Systems 439,Manufacturing,Growth,200-250,240,executive_led,2012
+COMP-0440,Bharat Works 440,Manufacturing,Established,100-149,124,executive_led,2018
+COMP-0441,Daksha Group 441,Technology,Growth,150-199,192,matrix_like,2020
+COMP-0442,Ananta Group 442,Financial Services,Growth,100-149,129,functional,2002
+COMP-0443,Aashray Works 443,Retail,Established,200-250,245,functional,2018
+COMP-0444,Sampada Labs 444,Retail,Established,100-149,129,functional,2001
+COMP-0445,Udaan Labs 445,Manufacturing,Series A,100-149,125,executive_led,2008
+COMP-0446,Sankalp Labs 446,Technology,Series B,150-199,180,functional,2023
+COMP-0447,Kaveri Co 447,Healthcare,Series A,100-149,103,matrix_like,1999
+COMP-0448,Astitva Co 448,Manufacturing,Series B,200-250,238,executive_led,2004
+COMP-0449,Pragati Group 449,Education,Growth,200-250,219,executive_led,2000
+COMP-0450,Akshara Labs 450,Education,Established,100-149,116,functional,2002
+COMP-0451,Chaitanya Co 451,Education,Growth,200-250,235,flat_startup,2015
+COMP-0452,Akshara Works 452,Retail,Series B,200-250,217,executive_led,2006
+COMP-0453,Jeevika Systems 453,Healthcare,Series A,100-149,120,matrix_like,2005
+COMP-0454,Navika Group 454,Manufacturing,Series A,150-199,198,functional,2001
+COMP-0455,Gati Works 455,Healthcare,Series B,100-149,105,flat_startup,2008
+COMP-0456,Aarunya Co 456,Manufacturing,Established,200-250,248,functional,2010
+COMP-0457,Aarohan Co 457,Education,Growth,150-199,166,executive_led,2005
+COMP-0458,Daksha Works 458,Education,Established,100-149,115,functional,2005
+COMP-0459,Sudarshan Group 459,Healthcare,Growth,100-149,116,flat_startup,2017
+COMP-0460,Nirmaan Co 460,Manufacturing,Seed,150-199,177,flat_startup,2022
+COMP-0461,Iraaya Systems 461,Retail,Series B,200-250,243,functional,2007
+COMP-0462,Jeevika Labs 462,Financial Services,Series A,100-149,108,matrix_like,2002
+COMP-0463,Indus Systems 463,Technology,Growth,200-250,229,functional,1998
+COMP-0464,Iraaya Labs 464,Healthcare,Seed,200-250,234,functional,2022
+COMP-0465,Jeevika Co 465,Retail,Series A,100-149,122,functional,2020
+COMP-0466,Navika Co 466,Manufacturing,Established,150-199,161,functional,2017
+COMP-0467,Aarohan Works 467,Technology,Seed,200-250,211,flat_startup,2019
+COMP-0468,Akshara Systems 468,Retail,Established,100-149,140,functional,2002
+COMP-0469,Jeevika Co 469,Education,Series A,150-199,157,functional,2019
+COMP-0470,Aarunya Co 470,Technology,Seed,100-149,132,functional,2002
+COMP-0471,Iraaya Systems 471,Manufacturing,Established,100-149,149,matrix_like,2021
+COMP-0472,Chaitanya Co 472,Education,Established,100-149,138,functional,2015
+COMP-0473,Vistaar Labs 473,Technology,Seed,100-149,136,matrix_like,2003
+COMP-0474,Sampada Co 474,Technology,Seed,100-149,125,executive_led,2023
+COMP-0475,Arohan Labs 475,Retail,Series B,100-149,121,flat_startup,2002
+COMP-0476,Daksha Systems 476,Education,Growth,200-250,213,executive_led,2014
+COMP-0477,Iraaya Co 477,Technology,Growth,200-250,244,functional,2003
+COMP-0478,Amara Works 478,Education,Series A,100-149,131,functional,2020
+COMP-0479,Pragati Labs 479,Education,Series B,100-149,114,functional,1998
+COMP-0480,Kaveri Labs 480,Technology,Series B,100-149,113,matrix_like,1998
+COMP-0481,Aarunya Works 481,Financial Services,Series B,150-199,162,executive_led,2023
+COMP-0482,Aarunya Co 482,Retail,Series B,100-149,122,matrix_like,2004
+COMP-0483,Jeevika Systems 483,Manufacturing,Seed,100-149,111,executive_led,1999
+COMP-0484,Sudarshan Works 484,Education,Series A,100-149,146,functional,2019
+COMP-0485,Aashray Labs 485,Technology,Series A,150-199,175,flat_startup,1998
+COMP-0486,Dharohar Works 486,Healthcare,Series A,200-250,210,executive_led,2015
+COMP-0487,Udaan Co 487,Financial Services,Series A,200-250,236,executive_led,2017
+COMP-0488,Sankalp Systems 488,Healthcare,Series A,100-149,138,flat_startup,2021
+COMP-0489,Gati Group 489,Technology,Established,200-250,226,flat_startup,2002
+COMP-0490,Iraaya Group 490,Education,Established,200-250,240,executive_led,2016
+COMP-0491,Nirmaan Labs 491,Technology,Series A,200-250,205,matrix_like,2020
+COMP-0492,Srishti Works 492,Healthcare,Established,100-149,112,flat_startup,2022
+COMP-0493,Chaitanya Systems 493,Education,Seed,100-149,147,matrix_like,2021
+COMP-0494,Vistaar Group 494,Technology,Series B,100-149,120,executive_led,1998
+COMP-0495,Aarunya Works 495,Retail,Seed,150-199,154,functional,2007
+COMP-0496,Iraaya Group 496,Education,Series A,150-199,160,functional,2005
+COMP-0497,Jeevika Group 497,Technology,Seed,200-250,250,flat_startup,2004
+COMP-0498,Aarunya Group 498,Education,Series A,200-250,221,executive_led,2017
+COMP-0499,Sampada Group 499,Financial Services,Growth,200-250,232,functional,2024
+COMP-0500,Chaitanya Labs 500,Education,Growth,200-250,218,executive_led,2020
