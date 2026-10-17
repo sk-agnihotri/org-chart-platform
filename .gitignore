@@ -5,7 +5,7 @@ __pycache__/
 .streamlit/secrets.toml
 .env
 *.py[cod]
-data/*.xlsx
 data/employee_id_counters.csv
+data/dataset_manifest.json
 reports/*.json
 docs/
