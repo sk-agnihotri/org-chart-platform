@@ -1,0 +1,11 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+.streamlit/secrets.toml
+.env
+*.py[cod]
+data/*.xlsx
+data/employee_id_counters.csv
+reports/*.json
+docs/

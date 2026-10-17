@@ -1,0 +1,81 @@
+{
+  "seed": 42,
+  "company_count": 500,
+  "employee_count": 89496,
+  "files": {
+    "companies.csv": {
+      "rows": 500,
+      "columns": [
+        "company_id",
+        "company_name",
+        "industry",
+        "stage",
+        "size_band",
+        "employee_count",
+        "structure_type",
+        "founded_year"
+      ]
+    },
+    "employees.csv": {
+      "rows": 89496,
+      "columns": [
+        "company_id",
+        "employee_id",
+        "full_name",
+        "job_title",
+        "department",
+        "seniority_level",
+        "location",
+        "employment_type",
+        "tenure_years"
+      ]
+    },
+    "ground_truth.csv": {
+      "rows": 89496,
+      "columns": [
+        "company_id",
+        "employee_id",
+        "manager_employee_id"
+      ]
+    },
+    "title_taxonomy.csv": {
+      "rows": 36,
+      "columns": [
+        "canonical_title",
+        "department",
+        "seniority_level",
+        "is_management",
+        "is_executive",
+        "aliases"
+      ]
+    },
+    "data_quality.csv": {
+      "rows": 89496,
+      "columns": [
+        "company_id",
+        "employee_id",
+        "title_missing",
+        "department_missing",
+        "title_abbreviated",
+        "title_case_corrupted",
+        "attributes_corrupted"
+      ]
+    },
+    "dataset_metadata.csv": {
+      "rows": 5,
+      "columns": [
+        "key",
+        "value"
+      ]
+    }
+  },
+  "sha256": {
+    "companies.csv": "7260ad7257bf6e402cf7c2952f49e99b10435d3531b0aeb922e3847eaee93218",
+    "employees.csv": "8069acc128f0dc7a70a138ca74b9f6db234611f2f262c1a5146483e41d432596",
+    "ground_truth.csv": "f730c27e6b0453206439aeb0c88466c6e6cdaaecc9cea6b1db03888440ba2f5b",
+    "title_taxonomy.csv": "ee6534c4efb75d1b182bf6663617dd29bc1722b4aa1116778c0e4cd5d5872b78",
+    "data_quality.csv": "de892ee27deb79d2da3c26e4b50da14121ab01f99a38207fbf8e4f0f74cd7307",
+    "dataset_metadata.csv": "eace4620bf752d5376cd9cc81df7b77b8193d2e81d866afe96b0d4485d16ea6e"
+  },
+  "ground_truth_is_evaluation_only": true
+}

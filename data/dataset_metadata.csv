@@ -1,0 +1,6 @@
+key,value
+seed,42
+company_count,500
+generator_version,0.2.0
+management_span,4-8 reports per executive/director layer
+ground_truth_note,Synthetic hierarchy; not evidence of real-world accuracy.
