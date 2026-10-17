@@ -35,7 +35,7 @@ def score_candidate(employee: dict[str, Any], manager: dict[str, Any]) -> dict[s
 
 
 def infer_company(employees: pd.DataFrame, config: InferenceConfig = InferenceConfig(), taxonomy: pd.DataFrame | None = None) -> pd.DataFrame:
-    columns = ["company_id", "employee_id", "manager_employee_id", "status", "evidence_score", "runner_up_score", "score_margin", "evidence", "candidate_employee_id", "reason", "algorithm_version"]
+    columns = ["company_id", "employee_id", "manager_employee_id", "status", "evidence_score", "runner_up_score", "score_margin", "seniority_gap", "evidence", "candidate_employee_id", "runner_up_employee_id", "reason", "algorithm_version"]
     if employees.empty:
         return pd.DataFrame(columns=columns)
     if not {"company_id", "employee_id"}.issubset(employees.columns):
@@ -66,7 +66,7 @@ def infer_company(employees: pd.DataFrame, config: InferenceConfig = InferenceCo
             margin = round(best_score - runner_score, 4) if best and runner else best_score
             status = "unresolved" if not best or best_score < config.acceptance_threshold else "ambiguous" if runner and margin < config.ambiguity_margin else "accepted"
             reason = "No eligible higher-seniority manager candidate." if not best else "Top candidates are too close to distinguish." if status == "ambiguous" else "Best candidate did not meet the evidence threshold." if status == "unresolved" else "Highest-scoring candidate meets threshold and margin."
-            outcomes.append({"company_id": company_id, "employee_id": employee["employee_id"], "manager_employee_id": best[0]["employee_id"] if status == "accepted" else None, "status": status, "evidence_score": best_score, "runner_up_score": runner_score, "score_margin": margin, "evidence": best[1]["features"] if best else {}, "candidate_employee_id": best[0]["employee_id"] if best else None, "reason": reason, "algorithm_version": ALGORITHM_VERSION})
+            outcomes.append({"company_id": company_id, "employee_id": employee["employee_id"], "manager_employee_id": best[0]["employee_id"] if status == "accepted" else None, "status": status, "evidence_score": best_score, "runner_up_score": runner_score, "score_margin": margin, "seniority_gap": best[1]["seniority_gap"] if best else None, "evidence": best[1]["features"] if best else {}, "candidate_employee_id": best[0]["employee_id"] if best else None, "runner_up_employee_id": runner[0]["employee_id"] if runner else None, "reason": reason, "algorithm_version": ALGORITHM_VERSION})
     result = pd.DataFrame(outcomes, columns=columns)
     accepted = result[result.status == "accepted"]
     violations = validate_edges(employees, accepted[["company_id", "employee_id", "manager_employee_id"]])
