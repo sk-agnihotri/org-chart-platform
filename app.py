@@ -13,6 +13,15 @@ from orgchart.data_loader import load_observable_data
 from orgchart.evaluation import evaluate_predictions
 from orgchart.inference import InferenceConfig, infer_company
 from orgchart.normalization import normalize_title
+from orgchart.review_features import (
+    company_narrative,
+    compare_employees,
+    health_findings,
+    make_review_queue,
+    relationship_evidence,
+    snapshot_directories,
+    structural_summary,
+)
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -84,6 +93,34 @@ def _cancel_threshold(widget_key: str, applied_key: str) -> None:
     st.session_state[widget_key] = st.session_state.get(applied_key, 0.0)
 
 
+def _data_as_of() -> str:
+    metadata_path = DATA / "dataset_metadata.csv"
+    if metadata_path.exists():
+        metadata = pd.read_csv(metadata_path)
+        if {"key", "value"}.issubset(metadata.columns):
+            date_rows = metadata[metadata.key.astype(str).str.casefold().isin({"dataset_date", "generated_at_utc", "data_as_of"})]
+            if not date_rows.empty:
+                return str(date_rows.iloc[0].value)
+    return "not recorded in dataset metadata"
+
+
+def _display(value, fallback: str) -> str:
+    return fallback if pd.isna(value) or not str(value).strip() else str(value)
+
+
+def _reporting_chain(employee_id: str, predictions: pd.DataFrame, employees: pd.DataFrame) -> list[str]:
+    names = employees.set_index("employee_id").full_name.to_dict()
+    managers = predictions[predictions.status == "accepted"].set_index("employee_id").manager_employee_id.to_dict()
+    chain = []
+    visited = set()
+    current = employee_id
+    while current and current not in visited and current in names:
+        visited.add(current)
+        chain.append(str(names[current]))
+        current = managers.get(current)
+    return list(reversed(chain))
+
+
 def chart(employees: pd.DataFrame, predictions: pd.DataFrame) -> go.Figure:
     graph = nx.DiGraph()
     graph.add_nodes_from(employees.employee_id)
@@ -150,9 +187,9 @@ employees = employees_all[employees_all.company_id == company_id].copy()
 predictions = infer_cached(employees.to_csv(index=False).encode("utf-8"), (DATA / "title_taxonomy.csv").read_bytes())
 st.caption(f"{company.industry} · {company.stage} · {company.employee_count} employees · {company.structure_type}")
 
-tabs = ["Org Chart", "Employee Explorer", "Unresolved", "Evaluation"]
+tabs = ["Org Chart", "Employee Explorer", "Review Queue", "Company Insights", "Compare Versions", "Evaluation"]
 tab_views = st.tabs(tabs)
-chart_tab, explorer_tab, unresolved_tab, evaluation_tab = tab_views[:4]
+chart_tab, explorer_tab, review_tab, insights_tab, compare_tab, evaluation_tab = tab_views
 with chart_tab:
     counts = st.columns(4)
     for col, label, number in zip(counts, ["Employees", "Accepted links", "Ambiguous", "Unresolved"], [len(employees), (predictions.status == "accepted").sum(), (predictions.status == "ambiguous").sum(), (predictions.status == "unresolved").sum()]):
@@ -218,23 +255,126 @@ with chart_tab:
     chart_predictions = candidates[candidates.manager_employee_id.isin(chart_ids)]
     if chart_people.empty:
         st.info("No employees match these filters.")
+        if st.button("Clear chart filters", key=f"clear_chart_{company_key}"):
+            st.session_state[department_applied_key] = departments
+            st.session_state[designation_applied_key] = seniorities
+            st.session_state[score_applied_key] = 0.0
+            st.session_state["chart_search"] = ""
+            st.rerun()
     else:
+        st.caption("Solid curved links show accepted inferred relationships. The tree is a suggestion, not verified reporting data.")
         st.plotly_chart(chart(chart_people, chart_predictions), use_container_width=True)
 
 with explorer_tab:
     view = employees.merge(predictions, on=["company_id", "employee_id"])
     view.insert(view.columns.get_loc("job_title") + 1, "normalized_title", view.job_title.map(lambda title: normalize_title(title, taxonomy)["canonical_title"]))
     view["inferred_manager"] = view.manager_employee_id.map(employees.set_index("employee_id").full_name)
-    st.dataframe(view[["full_name", "job_title", "normalized_title", "department", "seniority_level", "inferred_manager", "evidence_score", "status", "reason"]], use_container_width=True, hide_index=True)
+    display_columns = ["full_name", "job_title", "normalized_title", "department", "seniority_level", "inferred_manager", "evidence_score", "status", "reason"]
+    explore_cols = st.columns(2)
+    explorer_departments = ["All departments", *sorted(employees.department.dropna().unique())]
+    selected_explorer_department = explore_cols[0].selectbox("Department", explorer_departments, key=f"explorer_department_{company_id}")
+    explorer_designations = sorted(employees.seniority_level.dropna().unique())
+    selected_explorer_designations = explore_cols[1].multiselect("Designation", explorer_designations, default=explorer_designations, key=f"explorer_designation_{company_id}")
+    if selected_explorer_department != "All departments":
+        view = view[view.department == selected_explorer_department]
+    view = view[view.seniority_level.isin(selected_explorer_designations)]
+    st.dataframe(view[display_columns], use_container_width=True, hide_index=True)
+    context_date = _data_as_of()
+    export = view[display_columns].copy()
+    export.insert(0, "dataset_as_of", context_date)
+    export.insert(1, "company", company.company_name)
+    st.download_button("Download company employee view (CSV)", export.to_csv(index=False).encode("utf-8"), file_name=f"{company_id}-org-view.csv", mime="text/csv")
+    st.caption(f"Export context: {company.company_name} · data as of {context_date} · inference version {predictions.algorithm_version.iloc[0] if not predictions.empty else 'n/a'}.")
     evidence_employee = st.selectbox("Inspect relationship evidence", employees.employee_id, format_func=lambda value: f"{employees.loc[employees.employee_id == value, 'full_name'].iloc[0]} · {value}", key="evidence_employee")
-    st.json(predictions[predictions.employee_id == evidence_employee].iloc[0].to_dict())
+    selected = predictions[predictions.employee_id == evidence_employee].iloc[0]
+    person = employees.loc[employees.employee_id == evidence_employee].iloc[0]
+    st.markdown(f"**{person.full_name}** · {_display(person.job_title, 'Title unavailable')} · {_display(person.department, 'Department unavailable')}")
+    st.markdown(f"**Inference:** {selected.status.title()} · evidence score {selected.evidence_score if pd.notna(selected.evidence_score) else 'unavailable'} · {selected.reason}")
+    evidence_result = relationship_evidence(person, selected, employees)
+    if isinstance(evidence_result, tuple):
+        evidence_table, candidate = evidence_result
+        candidate_cols = st.columns(2)
+        candidate_cols[0].markdown(f"**Top candidate:** {candidate.full_name} · {_display(candidate.job_title, 'Title unavailable')} · {_display(candidate.department, 'Department unavailable')}")
+        runner_id = selected.get("runner_up_employee_id")
+        if pd.notna(runner_id) and runner_id in set(employees.employee_id):
+            runner = employees.loc[employees.employee_id == runner_id].iloc[0]
+            candidate_cols[1].markdown(f"**Alternative:** {runner.full_name} · score {selected.runner_up_score:.3f}")
+        st.dataframe(evidence_table, use_container_width=True, hide_index=True)
+    st.caption("Scores are weighted ranking signals, not calibrated probabilities or verified facts.")
+    chain = _reporting_chain(evidence_employee, predictions, employees)
+    st.markdown(f"**Inferred path to root:** {' → '.join(chain) if chain else 'No accepted path is available.'}")
 
-with unresolved_tab:
-    pending = predictions[predictions.status != "accepted"].merge(employees, on=["company_id", "employee_id"])
-    if pending.empty:
-        st.success("No unresolved relationships for this company.")
+with review_tab:
+    st.subheader("Relationship review queue")
+    st.caption("Includes ambiguous and unresolved links plus accepted links with evidence scores below 0.85. Review marks last only for this browser session.")
+    reviewed_key = f"reviewed_{company_id}"
+    reviewed_ids = set(st.session_state.get(reviewed_key, []))
+    queue = make_review_queue(employees, predictions, reviewed_ids)
+    if queue.empty:
+        st.success("No relationships currently meet the review-queue rules.")
     else:
-        st.dataframe(pending[["full_name", "job_title", "department", "status", "candidate_employee_id", "evidence_score", "runner_up_score", "score_margin", "reason"]], use_container_width=True, hide_index=True)
+        hide_reviewed = st.checkbox("Hide reviewed items", value=False, key=f"hide_reviewed_{company_id}")
+        reasons = sorted(queue.review_reason.unique())
+        chosen_reasons = st.multiselect("Review reason", reasons, default=reasons, key=f"review_reasons_{company_id}")
+        visible_queue = queue[queue.review_reason.isin(chosen_reasons)]
+        if hide_reviewed:
+            visible_queue = visible_queue[~visible_queue.reviewed]
+        queue_columns = ["full_name", "job_title", "department", "status", "candidate_employee_id", "evidence_score", "runner_up_score", "review_reason", "reviewed"]
+        st.dataframe(visible_queue[queue_columns], use_container_width=True, hide_index=True)
+        if not visible_queue.empty:
+            selected_review_id = st.selectbox("Select a relationship to review", visible_queue.employee_id, format_func=lambda value: f"{visible_queue.loc[visible_queue.employee_id == value, 'full_name'].iloc[0]} · {value}", key=f"review_selected_{company_id}")
+            selected_review = visible_queue.loc[visible_queue.employee_id == selected_review_id].iloc[0]
+            st.info(f"{selected_review.review_reason} {selected_review.reason}")
+            if selected_review_id in reviewed_ids:
+                if st.button("Undo reviewed", key=f"unreview_{company_id}_{selected_review_id}"):
+                    st.session_state[reviewed_key] = sorted(reviewed_ids - {selected_review_id})
+                    st.rerun()
+            elif st.button("Mark reviewed", key=f"review_{company_id}_{selected_review_id}"):
+                st.session_state[reviewed_key] = sorted(reviewed_ids | {selected_review_id})
+                st.rerun()
+
+with insights_tab:
+    st.subheader("Company structure signals")
+    findings = health_findings(employees, predictions)
+    narratives = company_narrative(employees, predictions, findings)
+    st.caption(f"Inferred from dataset dated {_data_as_of()}. These prompts identify records to inspect; they do not establish organizational problems.")
+    for message in narratives:
+        st.markdown(f"- {message}")
+    insight_cols = st.columns(5)
+    structure = structural_summary(employees, predictions)
+    insight_cols[0].metric("Accepted links", int((predictions.status == "accepted").sum()))
+    insight_cols[1].metric("Ambiguous", int((predictions.status == "ambiguous").sum()))
+    insight_cols[2].metric("Unresolved", int((predictions.status == "unresolved").sum()))
+    insight_cols[3].metric("Review prompts", len(findings))
+    insight_cols[4].metric("Inferred layers", structure["reporting_layers"])
+    if findings.empty:
+        st.success("No profile or span-of-control prompts were found by the current checks.")
+    else:
+        st.dataframe(findings, use_container_width=True, hide_index=True)
+
+with compare_tab:
+    st.subheader("Compare dataset versions")
+    snapshots = snapshot_directories(DATA)
+    if not snapshots:
+        st.info("No historical snapshots yet. Before replacing the observable CSV dataset, run `python scripts/snapshot_dataset.py <version-name>`, commit `data/snapshots/`, and redeploy.")
+    else:
+        snapshot_choice = st.selectbox("Previous version", snapshots, format_func=lambda path: path.name, key=f"snapshot_{company_id}")
+        previous_employees = pd.read_csv(snapshot_choice / "employees.csv")
+        previous_employees = previous_employees[previous_employees.company_id == company_id]
+        previous_taxonomy_path = snapshot_choice / "title_taxonomy.csv"
+        previous_taxonomy = pd.read_csv(previous_taxonomy_path) if previous_taxonomy_path.exists() else taxonomy
+        previous_predictions = infer_cached(previous_employees.to_csv(index=False).encode("utf-8"), previous_taxonomy.to_csv(index=False).encode("utf-8")) if not previous_employees.empty else pd.DataFrame()
+        changes = compare_employees(employees, previous_employees, predictions, previous_predictions)
+        summary = changes.Change.value_counts() if not changes.empty else pd.Series(dtype="int64")
+        delta_cols = st.columns(4)
+        for col, label in zip(delta_cols, ["Joined", "Departed", "Inferred manager changed", "Profile changes"]):
+            col.metric(label, int(summary.get(label, 0) if label != "Profile changes" else sum(summary.get(kind, 0) for kind in ["Title changed", "Department changed", "Designation changed"])))
+        if changes.empty:
+            st.success("No employee or inferred reporting changes found between these versions.")
+        else:
+            st.dataframe(changes, use_container_width=True, hide_index=True)
+            st.download_button("Download version comparison (CSV)", changes.to_csv(index=False).encode("utf-8"), file_name=f"{company_id}-version-comparison.csv", mime="text/csv")
+        st.caption("Manager changes are recalculated using the current inference algorithm and are comparisons of suggestions, not verified reporting changes.")
 
 with evaluation_tab:
     metadata_path = DATA / "dataset_metadata.csv"

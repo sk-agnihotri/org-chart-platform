@@ -8,4 +8,5 @@ __pycache__/
 data/employee_id_counters.csv
 data/dataset_manifest.json
 reports/*.json
-docs/
+docs/*
+!docs/USER_GUIDE.md

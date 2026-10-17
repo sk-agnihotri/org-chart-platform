@@ -6,6 +6,16 @@ python -m pip install -r requirements.txt
 streamlit run app.py
 ```
 
+Feature guide: [docs/USER_GUIDE.md](docs/USER_GUIDE.md).
+
+To create a historical dataset version before replacing the CSVs:
+
+```powershell
+python scripts\snapshot_dataset.py v1
+```
+
+Commit `data/snapshots/` with the updated dataset to enable version comparisons.
+
 # Deploy
 
 1. Merge `deploy/prod` into `main` on GitHub.
@@ -18,3 +28,5 @@ ORGCHART_USERS_JSON = '[{"username":"admin","password_hash":"<admin-hash>","role
 ```
 
 5. Deploy and open the generated app URL.
+
+Review marks are session-only in this CSV-backed, read-only deployment; use a persistent shared store before relying on them across users or sessions.
