@@ -8,9 +8,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from orgchart.auth import authenticate as authenticate_user, can_manage_employees, configured_users
+from orgchart.auth import authenticate as authenticate_user, configured_users
 from orgchart.data_loader import load_observable_data
-from orgchart.data_mutations import add_employee, remove_employee
 from orgchart.evaluation import evaluate_predictions
 from orgchart.inference import InferenceConfig, infer_company
 from orgchart.normalization import normalize_title
@@ -152,8 +151,6 @@ predictions = infer_cached(employees.to_csv(index=False).encode("utf-8"), (DATA 
 st.caption(f"{company.industry} · {company.stage} · {company.employee_count} employees · {company.structure_type}")
 
 tabs = ["Org Chart", "Employee Explorer", "Unresolved", "Evaluation"]
-if current_user.role in {"admin", "manager"}:
-    tabs.append("Manage Employees")
 tab_views = st.tabs(tabs)
 chart_tab, explorer_tab, unresolved_tab, evaluation_tab = tab_views[:4]
 with chart_tab:
@@ -256,47 +253,3 @@ with evaluation_tab:
     else:
         st.info("No ground truth is available in this deployment.")
 
-if current_user.role in {"admin", "manager"}:
-    with tab_views[4]:
-        allowed = can_manage_employees(current_user, company_id)
-        if not allowed:
-            st.info("Your manager account cannot edit employees in this company. Ask an administrator to add this company to your account scope.")
-        else:
-            st.subheader(f"Manage employees · {company.company_name}")
-            add_tab, remove_tab = st.tabs(["Add employee", "Remove employee"])
-            with add_tab:
-                with st.form("add_employee"):
-                    full_name = st.text_input("Full name")
-                    job_title = st.text_input("Job title")
-                    department = st.selectbox("Department", ["Not specified", *sorted(set(employees.department.dropna().unique()))])
-                    designation = st.selectbox("Designation", ["individual_contributor", "manager", "director", "executive"])
-                    location = st.text_input("Location", value="Not specified")
-                    submitted = st.form_submit_button("Add employee")
-                if submitted:
-                    try:
-                        employee_id = add_employee(DATA, {"company_id": company_id, "full_name": full_name, "job_title": job_title, "department": None if department == "Not specified" else department, "seniority_level": designation, "location": location, "employment_type": "full_time", "tenure_years": 0.0})
-                        st.cache_data.clear()
-                        st.success(f"Added {full_name} ({employee_id}).")
-                        st.rerun()
-                    except (OSError, ValueError) as exc:
-                        st.error(str(exc))
-            with remove_tab:
-                employee_ids = employees.employee_id.tolist()
-                if not employee_ids:
-                    st.info("No employees are available to remove.")
-                else:
-                    with st.form("remove_employee"):
-                        target_id = st.selectbox("Employee", employee_ids, format_func=lambda value: f"{employees.loc[employees.employee_id == value, 'full_name'].iloc[0]} · {value}")
-                        confirm_remove = st.checkbox("I understand this permanently removes this employee from the generated CSV data.")
-                        submitted = st.form_submit_button("Remove employee", type="primary")
-                    if submitted:
-                        if not confirm_remove:
-                            st.error("Confirm the removal before continuing.")
-                        else:
-                            try:
-                                remove_employee(DATA, target_id, company_id)
-                                st.cache_data.clear()
-                                st.success("Employee removed.")
-                                st.rerun()
-                            except (OSError, ValueError) as exc:
-                                st.error(str(exc))
