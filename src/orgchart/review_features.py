@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import pandas as pd
 import networkx as nx
+import pandas as pd
 
 
 EVIDENCE_LABELS = {
@@ -15,11 +15,11 @@ EVIDENCE_LABELS = {
 }
 
 
-def relationship_evidence(employee: pd.Series, prediction: pd.Series, employees: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series] | pd.DataFrame:
+def relationship_evidence(prediction: pd.Series, employees: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series | None]:
     lookup = employees.set_index("employee_id")
     candidate_id = prediction.get("candidate_employee_id")
     if pd.isna(candidate_id) or candidate_id not in lookup.index:
-        return pd.DataFrame(columns=["Signal", "Score", "Interpretation"])
+        return pd.DataFrame(columns=["Signal", "Score", "Interpretation"]), None
     candidate = lookup.loc[candidate_id]
     raw = prediction.get("evidence") or {}
     evidence = []
