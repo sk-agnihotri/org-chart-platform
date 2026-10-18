@@ -30,7 +30,7 @@ def test_relationship_evidence_explains_candidate_and_signals():
     people = sample_people()
     predictions = infer_company(people)
     prediction = predictions[predictions.employee_id == "e1"].iloc[0]
-    table, candidate = relationship_evidence(people[people.employee_id == "e1"].iloc[0], prediction, people)
+    table, candidate = relationship_evidence(prediction, people)
     assert candidate.name == prediction.candidate_employee_id
     assert "Functional alignment" in set(table.Signal)
     assert "Score margin" in set(table.Signal)

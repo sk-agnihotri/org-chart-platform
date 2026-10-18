@@ -3,16 +3,15 @@ from __future__ import annotations
 from pathlib import Path
 import sys
 
-import networkx as nx
 import pandas as pd
-import plotly.graph_objects as go
 import streamlit as st
 
 from orgchart.auth import authenticate as authenticate_user, configured_users
+from orgchart.chart_view import render_org_chart_svg
 from orgchart.data_loader import load_observable_data
 from orgchart.evaluation import evaluate_predictions
 from orgchart.inference import InferenceConfig, infer_company
-from orgchart.normalization import normalize_title
+from orgchart.normalization import build_title_alias_lookup, normalize_title
 from orgchart.review_features import (
     company_narrative,
     compare_employees,
@@ -75,22 +74,38 @@ def infer_cached(employees_csv: bytes, taxonomy_csv: bytes) -> pd.DataFrame:
     return infer_company(employees, InferenceConfig(), taxonomy)
 
 
-def _apply_checks(applied_key: str, widget_keys: tuple[tuple[str, str], ...]) -> None:
+def _apply_checks(applied_key: str, widget_keys: tuple[tuple[str, str], ...], popover_key: str) -> None:
     st.session_state[applied_key] = [label for label, key in widget_keys if st.session_state.get(key, False)]
+    st.session_state[popover_key] = False
 
 
-def _cancel_checks(applied_key: str, widget_keys: tuple[tuple[str, str], ...]) -> None:
+def _cancel_checks(applied_key: str, widget_keys: tuple[tuple[str, str], ...], popover_key: str) -> None:
     selected = set(st.session_state.get(applied_key, []))
     for label, key in widget_keys:
         st.session_state[key] = label in selected
+    st.session_state[popover_key] = False
 
 
-def _apply_threshold(widget_key: str, applied_key: str) -> None:
+def _apply_threshold(widget_key: str, applied_key: str, popover_key: str) -> None:
     st.session_state[applied_key] = st.session_state[widget_key]
+    st.session_state[popover_key] = False
 
 
-def _cancel_threshold(widget_key: str, applied_key: str) -> None:
+def _cancel_threshold(widget_key: str, applied_key: str, popover_key: str) -> None:
     st.session_state[widget_key] = st.session_state.get(applied_key, 0.0)
+    st.session_state[popover_key] = False
+
+
+def _clear_chart_filters(department_key: str, designation_key: str, score_key: str, score_widget_key: str, departments: list[str], designations: list[str], department_widgets: tuple[tuple[str, str], ...], designation_widgets: tuple[tuple[str, str], ...]) -> None:
+    st.session_state[department_key] = departments
+    st.session_state[designation_key] = designations
+    st.session_state[score_key] = 0.0
+    st.session_state[score_widget_key] = 0.0
+    for label, key in department_widgets:
+        st.session_state[key] = label in departments
+    for label, key in designation_widgets:
+        st.session_state[key] = label in designations
+    st.session_state["chart_search"] = ""
 
 
 def _data_as_of() -> str:
@@ -119,55 +134,6 @@ def _reporting_chain(employee_id: str, predictions: pd.DataFrame, employees: pd.
         chain.append(str(names[current]))
         current = managers.get(current)
     return list(reversed(chain))
-
-
-def chart(employees: pd.DataFrame, predictions: pd.DataFrame) -> go.Figure:
-    graph = nx.DiGraph()
-    graph.add_nodes_from(employees.employee_id)
-    graph.add_edges_from((row.manager_employee_id, row.employee_id) for row in predictions[predictions.status == "accepted"].itertuples())
-    positions = {}
-    roots = [node for node in graph if graph.in_degree(node) == 0]
-    cursor = 0.0
-
-    def place_subtree(node: str, depth: int) -> float:
-        nonlocal cursor
-        children = sorted(graph.successors(node), key=lambda item: names.get(item, item))
-        if not children:
-            x = cursor
-            cursor += 1.0
-        else:
-            child_x = [place_subtree(child, depth + 1) for child in children]
-            x = sum(child_x) / len(child_x)
-        positions[node] = (x, -depth)
-        return x
-
-    names = employees.set_index("employee_id").full_name.to_dict()
-    for root in sorted(roots, key=lambda item: names.get(item, item)):
-        place_subtree(root, 0)
-        cursor += 1.5
-    for node in graph:
-        if node not in positions:
-            positions[node] = (cursor, 0)
-            cursor += 1.0
-    titles = employees.set_index("employee_id").job_title.fillna("Title unavailable").to_dict()
-    edge_x, edge_y = [], []
-    for source, target in graph.edges:
-        x0, y0 = positions[source]
-        x1, y1 = positions[target]
-        curve_steps = 16
-        for step in range(curve_steps + 1):
-            t = step / curve_steps
-            inverse = 1 - t
-            edge_x.append(inverse**3 * x0 + 3 * inverse**2 * t * x0 + 3 * inverse * t**2 * x1 + t**3 * x1)
-            edge_y.append(inverse**3 * y0 + 3 * inverse**2 * t * (y0 - 0.35) + 3 * inverse * t**2 * (y1 + 0.35) + t**3 * y1)
-        edge_x.append(None)
-        edge_y.append(None)
-    node_ids = list(graph.nodes)
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=edge_x, y=edge_y, mode="lines", line={"color": "#aab4c0", "width": 1}, hoverinfo="skip"))
-    fig.add_trace(go.Scatter(x=[positions[node][0] for node in node_ids], y=[positions[node][1] for node in node_ids], mode="markers+text", text=[names[node] for node in node_ids], textposition="bottom center", hovertext=[f"{names[node]}<br>{titles[node]}<br>{node}" for node in node_ids], hoverinfo="text", marker={"size": 16, "color": "#326cf4"}))
-    fig.update_layout(showlegend=False, height=max(500, min(950, len(node_ids) * 8)), margin={"l": 25, "r": 25, "t": 25, "b": 80}, xaxis={"visible": False}, yaxis={"visible": False}, plot_bgcolor="white")
-    return fig
 
 
 st.set_page_config(page_title="Org Chart Inference", page_icon="🏢", layout="wide")
@@ -208,38 +174,41 @@ with chart_tab:
     controls = st.columns([2.2, 2.2, 1.8, 4])
     with controls[0]:
         st.markdown("**Department**")
-        with st.popover(f"Choose departments ({len(st.session_state[department_applied_key])})", use_container_width=True):
+        department_popover_key = f"department_popover_{company_key}"
+        with st.popover(f"Choose departments ({len(st.session_state[department_applied_key])})", use_container_width=True, key=department_popover_key, on_change="rerun"):
             department_widgets = tuple((value, f"department_draft_{company_key}_{index}") for index, value in enumerate(departments))
             for value, key in department_widgets:
-                st.session_state.setdefault(key, value in st.session_state[department_applied_key])
+                st.session_state[key] = value in st.session_state[department_applied_key]
             with st.form(f"department_form_{company_key}"):
                 for value, key in department_widgets:
                     st.checkbox(value, key=key)
                 buttons = st.columns(2)
-                buttons[0].form_submit_button("Apply", on_click=_apply_checks, args=(department_applied_key, department_widgets), use_container_width=True)
-                buttons[1].form_submit_button("Cancel", on_click=_cancel_checks, args=(department_applied_key, department_widgets), use_container_width=True)
+                buttons[0].form_submit_button("Apply", on_click=_apply_checks, args=(department_applied_key, department_widgets, department_popover_key), use_container_width=True)
+                buttons[1].form_submit_button("Cancel", on_click=_cancel_checks, args=(department_applied_key, department_widgets, department_popover_key), use_container_width=True)
     with controls[1]:
         st.markdown("**Designation**")
-        with st.popover(f"Choose designations ({len(st.session_state[designation_applied_key])})", use_container_width=True):
+        designation_popover_key = f"designation_popover_{company_key}"
+        with st.popover(f"Choose designations ({len(st.session_state[designation_applied_key])})", use_container_width=True, key=designation_popover_key, on_change="rerun"):
             designation_widgets = tuple((value, f"designation_draft_{company_key}_{index}") for index, value in enumerate(seniorities))
             for value, key in designation_widgets:
-                st.session_state.setdefault(key, value in st.session_state[designation_applied_key])
+                st.session_state[key] = value in st.session_state[designation_applied_key]
             with st.form(f"designation_form_{company_key}"):
                 for value, key in designation_widgets:
                     st.checkbox(value.replace("_", " ").title(), key=key)
                 buttons = st.columns(2)
-                buttons[0].form_submit_button("Apply", on_click=_apply_checks, args=(designation_applied_key, designation_widgets), use_container_width=True)
-                buttons[1].form_submit_button("Cancel", on_click=_cancel_checks, args=(designation_applied_key, designation_widgets), use_container_width=True)
+                buttons[0].form_submit_button("Apply", on_click=_apply_checks, args=(designation_applied_key, designation_widgets, designation_popover_key), use_container_width=True)
+                buttons[1].form_submit_button("Cancel", on_click=_cancel_checks, args=(designation_applied_key, designation_widgets, designation_popover_key), use_container_width=True)
     with controls[2]:
         st.markdown("**Evidence score**")
-        with st.popover(f"Minimum: {st.session_state[score_applied_key]:.2f}", use_container_width=True):
+        score_popover_key = f"score_popover_{company_key}"
+        with st.popover(f"Minimum: {st.session_state[score_applied_key]:.2f}", use_container_width=True, key=score_popover_key, on_change="rerun"):
             score_widget_key = f"score_draft_{company_key}"
             st.session_state.setdefault(score_widget_key, st.session_state[score_applied_key])
             with st.form(f"score_form_{company_key}"):
                 st.slider("Minimum evidence", 0.0, 1.0, 0.0, 0.05, key=score_widget_key)
                 buttons = st.columns(2)
-                buttons[0].form_submit_button("Apply", on_click=_apply_threshold, args=(score_widget_key, score_applied_key), use_container_width=True)
-                buttons[1].form_submit_button("Cancel", on_click=_cancel_threshold, args=(score_widget_key, score_applied_key), use_container_width=True)
+                buttons[0].form_submit_button("Apply", on_click=_apply_threshold, args=(score_widget_key, score_applied_key, score_popover_key), use_container_width=True)
+                buttons[1].form_submit_button("Cancel", on_click=_cancel_threshold, args=(score_widget_key, score_applied_key, score_popover_key), use_container_width=True)
     with controls[3]:
         st.markdown("**Search employee**")
         search = st.text_input("Name or title", key="chart_search", label_visibility="collapsed", placeholder="Search name or title").casefold()
@@ -255,19 +224,20 @@ with chart_tab:
     chart_predictions = candidates[candidates.manager_employee_id.isin(chart_ids)]
     if chart_people.empty:
         st.info("No employees match these filters.")
-        if st.button("Clear chart filters", key=f"clear_chart_{company_key}"):
-            st.session_state[department_applied_key] = departments
-            st.session_state[designation_applied_key] = seniorities
-            st.session_state[score_applied_key] = 0.0
-            st.session_state["chart_search"] = ""
-            st.rerun()
+        st.button(
+            "Clear chart filters",
+            key=f"clear_chart_{company_key}",
+            on_click=_clear_chart_filters,
+            args=(department_applied_key, designation_applied_key, score_applied_key, score_widget_key, departments, seniorities, department_widgets, designation_widgets),
+        )
     else:
         st.caption("Solid curved links show accepted inferred relationships. The tree is a suggestion, not verified reporting data.")
-        st.plotly_chart(chart(chart_people, chart_predictions), use_container_width=True)
+        st.components.v1.html(render_org_chart_svg(chart_people, chart_predictions), height=780, scrolling=False)
 
 with explorer_tab:
     view = employees.merge(predictions, on=["company_id", "employee_id"])
-    view.insert(view.columns.get_loc("job_title") + 1, "normalized_title", view.job_title.map(lambda title: normalize_title(title, taxonomy)["canonical_title"]))
+    title_aliases = build_title_alias_lookup(taxonomy)
+    view.insert(view.columns.get_loc("job_title") + 1, "normalized_title", view.job_title.map(lambda title: normalize_title(title, title_aliases=title_aliases)["canonical_title"]))
     view["inferred_manager"] = view.manager_employee_id.map(employees.set_index("employee_id").full_name)
     display_columns = ["full_name", "job_title", "normalized_title", "department", "seniority_level", "inferred_manager", "evidence_score", "status", "reason"]
     explore_cols = st.columns(2)
@@ -290,15 +260,17 @@ with explorer_tab:
     person = employees.loc[employees.employee_id == evidence_employee].iloc[0]
     st.markdown(f"**{person.full_name}** · {_display(person.job_title, 'Title unavailable')} · {_display(person.department, 'Department unavailable')}")
     st.markdown(f"**Inference:** {selected.status.title()} · evidence score {selected.evidence_score if pd.notna(selected.evidence_score) else 'unavailable'} · {selected.reason}")
-    evidence_result = relationship_evidence(person, selected, employees)
-    if isinstance(evidence_result, tuple):
-        evidence_table, candidate = evidence_result
+    evidence_table, candidate = relationship_evidence(selected, employees)
+    if candidate is None:
+        st.info("No eligible manager candidate was found for this employee.")
+    else:
         candidate_cols = st.columns(2)
         candidate_cols[0].markdown(f"**Top candidate:** {candidate.full_name} · {_display(candidate.job_title, 'Title unavailable')} · {_display(candidate.department, 'Department unavailable')}")
         runner_id = selected.get("runner_up_employee_id")
         if pd.notna(runner_id) and runner_id in set(employees.employee_id):
             runner = employees.loc[employees.employee_id == runner_id].iloc[0]
             candidate_cols[1].markdown(f"**Alternative:** {runner.full_name} · score {selected.runner_up_score:.3f}")
+    if not evidence_table.empty:
         st.dataframe(evidence_table, use_container_width=True, hide_index=True)
     st.caption("Scores are weighted ranking signals, not calibrated probabilities or verified facts.")
     chain = _reporting_chain(evidence_employee, predictions, employees)
