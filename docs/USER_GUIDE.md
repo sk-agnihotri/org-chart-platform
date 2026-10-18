@@ -6,7 +6,7 @@ The app ranks possible employee-manager relationships from observable employee a
 
 ## Explore a company
 
-- **Org Chart:** Explore accepted inferred links. Filter by department, designation, evidence score, and employee name or title. Use **Clear chart filters** if the current selection produces no employees.
+- **Org Chart:** Explore accepted inferred links in a responsive row-and-column layout with fixed-size employee cards. Long labels truncate and reveal their full values on hover. Use each manager card’s **+ / −** control to expand or collapse reports. Use the chart’s **+**, **−**, and **Fit** controls to zoom, or drag to pan; it does not use scrollbars. Filter by department, designation, evidence score, and employee name or title. Use **Clear chart filters** if the current selection produces no employees.
 - **Employee Explorer:** Inspect normalized titles, inferred managers, status, and reason. Select a department and designations to scope the CSV export. The export includes company and dataset-date context.
 - **Relationship evidence:** Select an employee to inspect the top candidate, available alternative, scoring signals, score margin, and inferred path to the root. Evidence scores rank candidates; they do not represent calibrated confidence.
 
