@@ -11,7 +11,7 @@ from orgchart.chart_view import render_org_chart_svg
 from orgchart.data_loader import load_observable_data
 from orgchart.evaluation import evaluate_predictions
 from orgchart.inference import InferenceConfig, infer_company
-from orgchart.normalization import normalize_title
+from orgchart.normalization import build_title_alias_lookup, normalize_title
 from orgchart.review_features import (
     company_narrative,
     compare_employees,
@@ -236,7 +236,8 @@ with chart_tab:
 
 with explorer_tab:
     view = employees.merge(predictions, on=["company_id", "employee_id"])
-    view.insert(view.columns.get_loc("job_title") + 1, "normalized_title", view.job_title.map(lambda title: normalize_title(title, taxonomy)["canonical_title"]))
+    title_aliases = build_title_alias_lookup(taxonomy)
+    view.insert(view.columns.get_loc("job_title") + 1, "normalized_title", view.job_title.map(lambda title: normalize_title(title, title_aliases=title_aliases)["canonical_title"]))
     view["inferred_manager"] = view.manager_employee_id.map(employees.set_index("employee_id").full_name)
     display_columns = ["full_name", "job_title", "normalized_title", "department", "seniority_level", "inferred_manager", "evidence_score", "status", "reason"]
     explore_cols = st.columns(2)
@@ -259,15 +260,17 @@ with explorer_tab:
     person = employees.loc[employees.employee_id == evidence_employee].iloc[0]
     st.markdown(f"**{person.full_name}** · {_display(person.job_title, 'Title unavailable')} · {_display(person.department, 'Department unavailable')}")
     st.markdown(f"**Inference:** {selected.status.title()} · evidence score {selected.evidence_score if pd.notna(selected.evidence_score) else 'unavailable'} · {selected.reason}")
-    evidence_result = relationship_evidence(person, selected, employees)
-    if isinstance(evidence_result, tuple):
-        evidence_table, candidate = evidence_result
+    evidence_table, candidate = relationship_evidence(selected, employees)
+    if candidate is None:
+        st.info("No eligible manager candidate was found for this employee.")
+    else:
         candidate_cols = st.columns(2)
         candidate_cols[0].markdown(f"**Top candidate:** {candidate.full_name} · {_display(candidate.job_title, 'Title unavailable')} · {_display(candidate.department, 'Department unavailable')}")
         runner_id = selected.get("runner_up_employee_id")
         if pd.notna(runner_id) and runner_id in set(employees.employee_id):
             runner = employees.loc[employees.employee_id == runner_id].iloc[0]
             candidate_cols[1].markdown(f"**Alternative:** {runner.full_name} · score {selected.runner_up_score:.3f}")
+    if not evidence_table.empty:
         st.dataframe(evidence_table, use_container_width=True, hide_index=True)
     st.caption("Scores are weighted ranking signals, not calibrated probabilities or verified facts.")
     chain = _reporting_chain(evidence_employee, predictions, employees)

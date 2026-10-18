@@ -17,11 +17,29 @@ FUNCTIONS = {
 }
 
 
-def normalize_title(raw_title: Any, taxonomy: Any = None) -> dict[str, Any]:
+def build_title_alias_lookup(taxonomy: Any = None) -> dict[str, str]:
+    lookup = {}
+    if taxonomy is None or getattr(taxonomy, "empty", True):
+        return lookup
+    for row in taxonomy.itertuples(index=False):
+        canonical = str(getattr(row, "canonical_title", "")).strip()
+        canonical_key = canonical.lower()
+        if canonical_key:
+            lookup.setdefault(canonical_key, canonical_key)
+        for alias in str(getattr(row, "aliases", "")).split("|"):
+            alias_key = alias.strip().lower()
+            if alias_key:
+                lookup.setdefault(alias_key, canonical_key)
+    return lookup
+
+
+def normalize_title(raw_title: Any, taxonomy: Any = None, *, title_aliases: dict[str, str] | None = None) -> dict[str, Any]:
     raw = "" if raw_title is None else str(raw_title).strip()
     text = re.sub(r"\s+", " ", raw.lower())
     text = ALIASES.get(text, text)
-    if taxonomy is not None and not getattr(taxonomy, "empty", True):
+    if title_aliases is not None:
+        text = title_aliases.get(text, text)
+    elif taxonomy is not None and not getattr(taxonomy, "empty", True):
         for row in taxonomy.itertuples(index=False):
             canonical, aliases = str(getattr(row, "canonical_title", "")), str(getattr(row, "aliases", ""))
             if text == canonical.lower() or text in [item.strip().lower() for item in aliases.split("|") if item.strip()]:

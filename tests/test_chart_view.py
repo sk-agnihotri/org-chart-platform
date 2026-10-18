@@ -36,6 +36,9 @@ def test_org_chart_cards_keep_fixed_dimensions_and_reflow_without_horizontal_scr
     assert "Ananya Sharma with a Very Long Name" in rendered
     assert "Research \\u0026 Development Department" in rendered
     assert "overflow-x:auto" not in rendered
+    assert 'aria-label="Designation legend"' in rendered
+    assert '"executive": "#e65365"' in rendered
+    assert 'const roleColor = roleColors[node.role]' in rendered
 
 
 def test_org_chart_renders_fallback_cards_when_no_relationships():

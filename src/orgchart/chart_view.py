@@ -37,16 +37,20 @@ def render_org_chart_svg(employees: pd.DataFrame, predictions: pd.DataFrame) -> 
             "name": _value(person.get("full_name"), "Name unavailable"),
             "department": _value(person.get("department"), "Department not set"),
             "designation": _value(person.get("seniority_level"), "Designation not set").replace("_", " ").title(),
+            "role": _value(person.get("seniority_level"), "").casefold().replace("_", " "),
             "title": _value(person.get("job_title"), "Title unavailable"),
         })
     nodes_json = json.dumps(nodes, ensure_ascii=True).replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
-    return f'''<div id="org-chart-wrap" style="width:100%;height:800px;overflow:hidden;border:1px solid #e2e8f0;border-radius:10px;background:#fff">
-<div style="height:42px;display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:0 10px;border-bottom:1px solid #e2e8f0;background:#fff;font-family:Arial,sans-serif">
+    return f'''<div id="org-chart-wrap" style="width:100%;height:800px;display:flex;flex-direction:column;overflow:hidden;border:1px solid #e2e8f0;border-radius:10px;background:#fff">
+<div style="min-height:42px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;border-bottom:1px solid #e2e8f0;background:#fff;font-family:Arial,sans-serif;flex-wrap:wrap">
+<div aria-label="Designation legend" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:#415674">
+<span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#e65365;margin-right:4px"></i>Executive</span><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#f28c45;margin-right:4px"></i>Director</span><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3979d6;margin-right:4px"></i>Manager</span><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#32b878;margin-right:4px"></i>Senior</span><span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#9a7ac7;margin-right:4px"></i>IC</span>
+</div><div style="display:flex;align-items:center;justify-content:flex-end;gap:6px">
 <button id="chart-zoom-out" type="button" aria-label="Zoom out" style="height:30px;padding:0 12px;border:1px solid #cbd8e8;border-radius:6px;background:#fff;color:#172b4d;font-size:16px;cursor:pointer">−</button>
 <button id="chart-fit" type="button" style="height:30px;padding:0 12px;border:1px solid #cbd8e8;border-radius:6px;background:#fff;color:#172b4d;font-size:12px;cursor:pointer">Fit</button>
 <button id="chart-zoom-in" type="button" aria-label="Zoom in" style="height:30px;padding:0 12px;border:1px solid #cbd8e8;border-radius:6px;background:#fff;color:#172b4d;font-size:16px;cursor:pointer">+</button>
-</div>
-<svg id="org-chart" role="img" aria-label="Inferred organizational chart" style="display:block;width:100%;height:calc(100% - 43px);background:#fff;touch-action:none;cursor:grab"></svg>
+</div></div>
+<svg id="org-chart" role="img" aria-label="Inferred organizational chart" style="display:block;width:100%;height:auto;min-height:0;flex:1;background:#fff;touch-action:none;cursor:grab"></svg>
 <script>
 const chartNodes = {nodes_json};
 const chartSvg = document.getElementById("org-chart");
@@ -56,6 +60,7 @@ const cardWidth = {CARD_WIDTH};
 const cardHeight = {CARD_HEIGHT};
 const rowGap = {HORIZONTAL_GAP};
 const levelGap = {VERTICAL_GAP};
+const roleColors = {{"executive": "#e65365", "director": "#f28c45", "manager": "#3979d6", "senior": "#32b878", "individual contributor": "#9a7ac7", "ic": "#9a7ac7"}};
 let zoom = 1;
 let panX = 0;
 let panY = 0;
@@ -91,11 +96,20 @@ function drawChart() {{
   const gridWidth = columns * cardWidth + (columns - 1) * rowGap;
   const offsetX = Math.max(padding, (width - gridWidth) / 2);
   const visibleNodes = chartNodes.filter(isVisible);
-  const depths = [...new Set(visibleNodes.map(node => node.depth))].sort((a, b) => a - b);
+  const nodesByDepth = new Map();
+  const childCounts = new Map();
+  for (const node of visibleNodes) {{
+    if (!nodesByDepth.has(node.depth)) nodesByDepth.set(node.depth, []);
+    nodesByDepth.get(node.depth).push(node);
+  }}
+  for (const node of chartNodes) {{
+    if (node.parent) childCounts.set(node.parent, (childCounts.get(node.parent) || 0) + 1);
+  }}
+  const depths = [...nodesByDepth.keys()].sort((a, b) => a - b);
   const positions = new Map();
   let currentY = 24;
   for (const depth of depths) {{
-    const levelNodes = visibleNodes.filter(node => node.depth === depth).sort((a, b) => a.name.localeCompare(b.name));
+    const levelNodes = nodesByDepth.get(depth).sort((a, b) => a.name.localeCompare(b.name));
     const rows = Math.ceil(levelNodes.length / columns);
     levelNodes.forEach((node, index) => {{
       const row = Math.floor(index / columns);
@@ -133,10 +147,11 @@ function drawChart() {{
     const left = point.x - cardWidth / 2;
     const top = point.y - cardHeight / 2;
     const group = addSvg("g", {{}}, layer);
+    const roleColor = roleColors[node.role] || "#64748b";
     const tooltip = addSvg("title", {{}}, group);
     tooltip.textContent = `${{node.name}} | ${{node.department}} | ${{node.designation}} | ${{node.title}}`;
-    addSvg("rect", {{x: left, y: top, width: cardWidth, height: cardHeight, rx: 10, fill: "#fff", stroke: "#cbd8e8", "stroke-width": 1.5}}, group);
-    addSvg("rect", {{x: left, y: top + 10, width: 5, height: cardHeight - 20, rx: 2, fill: "#326cf4"}}, group);
+    addSvg("rect", {{x: left, y: top, width: cardWidth, height: cardHeight, rx: 10, fill: `${{roleColor}}12`, stroke: `${{roleColor}}80`, "stroke-width": 1.5}}, group);
+    addSvg("rect", {{x: left, y: top + 10, width: 5, height: cardHeight - 20, rx: 2, fill: roleColor}}, group);
     const lines = [
       {{text: clipped(node.name, cardWidth - 40, "700 16px Arial"), y: top + 34, font: "Arial, sans-serif", size: 16, weight: 700, color: "#172b4d"}},
       {{text: `Department: ${{clipped(node.department, cardWidth - 44, "13px Arial")}}`, y: top + 62, font: "Arial, sans-serif", size: 13, color: "#415674"}},
@@ -147,7 +162,7 @@ function drawChart() {{
       const text = addSvg("text", {{x: left + 20, y: line.y, fill: line.color, "font-family": line.font, "font-size": line.size, "font-weight": line.weight || 400}}, group);
       text.textContent = line.text;
     }}
-    if (chartNodes.some(candidate => candidate.parent === node.id)) {{
+    if (childCounts.has(node.id)) {{
       const toggle = addSvg("g", {{role: "button", tabindex: 0, "aria-label": `${{collapsedNodes.has(node.id) ? "Expand" : "Collapse"}} reports for ${{node.name}}`, style: "cursor:pointer"}}, group);
       addSvg("circle", {{cx: left + cardWidth - 18, cy: top + 18, r: 11, fill: "#326cf4", stroke: "#fff", "stroke-width": 2}}, toggle);
       const symbol = addSvg("text", {{x: left + cardWidth - 18, y: top + 23, fill: "#fff", "font-family": "Arial, sans-serif", "font-size": 16, "font-weight": 700, "text-anchor": "middle", "pointer-events": "none"}}, toggle);
